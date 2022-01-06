@@ -63,12 +63,12 @@ class kaspa_client:
     
     def request(self, command, payload = None):
         '''
-        Requires debugging and error handling - occationally we get `resp_as_json`` as `NoneType`. No idea why.
+        Requires debugging see README 'breaking issues' for reference. 
         '''
         payload = None if payload == {} else payload
         LOG.info(lm.REQUEST_MESSAGE(command, self.node))
         payload = self._serialize_request(command, payload)
-        resp = next(self._stream(iter([payload,]),  wait_for_ready = True), None)
+        resp = next(self._stream(iter([payload,]),  wait_for_ready = True), None) # For reference see Breaking issues in README   
         if isinstance(resp,  type(None)):
             LOG.debug(e.ResponseAsNoneType(resp))
             pass
