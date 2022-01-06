@@ -31,38 +31,36 @@ class query_node:
     def version(addr):
         kas_msg = KaspadMessage()
         kas_msg.getInfoRequest.SetInParent()
-        temp_chan = grpc.insecure_channel(f'{addr}', compression=grpc.Compression.Gzip)
-        temp_stream = RPCStub(temp_chan).MessageStream
-        resp = next(temp_stream(iter([kas_msg,]),  wait_for_ready = True), None)
-        if isinstance(resp,  type(None)): # For reference see Breaking issues in README   
-            LOG.debug(ResponseAsNoneType(resp))
+        temp_chan = grpc.insecure_channel(f'{addr}')
+        temp_stream = RPCStub(temp_chan)
+        for resp in temp_stub.MessageStream(iter([kas_msg]), wait_for_ready = True):
+            data = resp
+        if isinstance(data,  type(None)): # For reference see Breaking issues in README   
+            LOG.debug(ResponseAsNoneType(data))
             temp_chan.close()
             pass
         else:
-            print(type(resp))
-            resp = json_format.MessageToDict(resp)
-            print(resp, addr)
             temp_chan.close()
-            return ver.parse_from_string(resp['getInfoResponse']['serverVersion'])
+            data = json_format.MessageToDict(data)
+            return ver.parse_from_string(data['getInfoResponse']['serverVersion'])
     
     
     @staticmethod
     def network(addr, timeout):
         kas_msg = KaspadMessage()
         kas_msg.getCurrentNetworkRequest.SetInParent()
-        temp_chan = grpc.insecure_channel(f'{addr}', compression=grpc.Compression.Gzip)
-        temp_stream = RPCStub(temp_chan).MessageStream
-        resp = next(temp_stream(iter([kas_msg,]), wait_for_ready = True), None)
-        if isinstance(resp,  type(None)): # For reference see Breaking issues in README   
-            LOG.debug(ResponseAsNoneType(resp))
+        temp_chan = grpc.insecure_channel(f'{addr}')
+        temp_stub = RPCStub(temp_chan)
+        for resp in temp_stub.MessageStream(iter([kas_msg]), wait_for_ready = True):
+            data = resp
+        if isinstance(data,  type(None)): # For reference see Breaking issues in README   
+            LOG.debug(ResponseAsNoneType(data))
             temp_chan.close()
             pass
         else:
             temp_chan.close()
-            resp = json_format.MessageToDict(resp)
-            print(type(resp))
-            print(resp, addr)
-            return resp['getCurrentNetworkResponse']['currentNetwork'].lower()
+            data = json_format.MessageToDict(data)
+            return data['getCurrentNetworkResponse']['currentNetwork'].lower()
     
     @staticmethod
     def sync(addr, **kwargs):
