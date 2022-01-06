@@ -47,11 +47,10 @@ class kaspa_client:
         app_msg = eval(f'kaspa_msg.{command}') #should not use eval - but seems like the easiest way for now.
         if payload:
             if isinstance(payload, dict):
-                json_format.ParseDict(payload)
+                json_format.ParseDict(payload, app_msg)
             if isinstance(payload, str):
                 json_format.Parse(payload, app_msg)
         app_msg.SetInParent()
-        print(json_format.MessageToDict(kaspa_msg))
         return kaspa_msg
     
     def auto_connect(self, **kwargs):
@@ -65,21 +64,21 @@ class kaspa_client:
         '''
         Requires debugging see README 'breaking issues' for reference. 
         '''
-        payload = None if payload == {} else payload
         LOG.info(lm.REQUEST_MESSAGE(command, self.node))
         payload = self._serialize_request(command, payload)
-        resp = next(self._stream(iter([payload,]),  wait_for_ready = True), None) # For reference see Breaking issues in README   
-        if isinstance(resp,  type(None)):
-            LOG.debug(e.ResponseAsNoneType(resp))
+        for resp in self._stub.MessageStream(iter([payload, payload]),  wait_for_ready = True):
+            data = resp    
+        if isinstance(data,  type(None)):
+            LOG.debug(e.ResponseAsNoneType(data))
             pass
-        elif isinstance(resp, KaspadMessage):
-            resp = json_format.MessageToJson(resp)
+        elif isinstance(data, KaspadMessage):
+            resp = json_format.MessageToJson(data)
             LOG.info(lm.RETRIVED_MESSAGE(
-                next(iter(json.loads(resp).keys())),
+                next(iter(json.loads(data).keys())),
                 command,
                 self.node
                         ))
-            return resp
+            return data
         else:
             raise Exception(f'reponse was sent as type {type(resp)} expected type {type(KaspadMessage)}')
 
