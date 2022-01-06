@@ -26,34 +26,7 @@ class query_node:
     '''some functions to help retrive basic info from a node'''
     
     ''' 
-    DEBUG - this seems to be one the most unstable code, for now. 
-    
-        network & version
-        the 3 main exceptions I am getting:
-        
-        ***
-        
-        From `_MultithreadedRendezvous`
-                
-            1)  "Could not contact DNS servers","file":"src/core/ext/filters/client_channel/resolver/dns/c_ares/grpc_ares_wrapper.cc","file_line":698
-                - seems to only pertain to ipv4 addresses
-                Solution : only connect to ipv6?   
-            2) "failed to connect to all addresses","file":"src/core/lib/transport/error_utils.cc","file_line":163,"grpc_status":14}]}"
-
-        SOLVED : check if port is open beforehand
-        
-        ***
-
-        From ` `
-        
-            3) Theses exceptions are literally just empty - no idea what to debug... 
-        
-        even more annoying is the fact that for one call to the RPC I might get a response, for the next the empty exception.
-            --> they are not bound to the host!
-        
-        --> some commands, for example `addPeerRequest` are muuch more likely to pass then 'getCurrentNetworkRequest`
-
-        
+    For reference see Breaking issues in README   
     '''
     def version(addr):
         kas_msg = KaspadMessage()
@@ -61,7 +34,7 @@ class query_node:
         temp_chan = grpc.insecure_channel(f'{addr}', compression=grpc.Compression.Gzip)
         temp_stream = RPCStub(temp_chan).MessageStream
         resp = next(temp_stream(iter([kas_msg,]),  wait_for_ready = True), None)
-        if isinstance(resp,  type(None)):
+        if isinstance(resp,  type(None)): # For reference see Breaking issues in README   
             LOG.debug(ResponseAsNoneType(resp))
             temp_chan.close()
             pass
@@ -80,7 +53,7 @@ class query_node:
         temp_chan = grpc.insecure_channel(f'{addr}', compression=grpc.Compression.Gzip)
         temp_stream = RPCStub(temp_chan).MessageStream
         resp = next(temp_stream(iter([kas_msg,]), wait_for_ready = True), None)
-        if isinstance(resp,  type(None)):
+        if isinstance(resp,  type(None)): # For reference see Breaking issues in README   
             LOG.debug(ResponseAsNoneType(resp))
             temp_chan.close()
             pass
