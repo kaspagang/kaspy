@@ -32,7 +32,8 @@ class query_node:
         kas_msg = KaspadMessage()
         kas_msg.getInfoRequest.SetInParent()
         temp_chan = grpc.insecure_channel(f'{addr}')
-        temp_stream = RPCStub(temp_chan)
+        temp_stub = RPCStub(temp_chan)
+        data = None
         for resp in temp_stub.MessageStream(iter([kas_msg]), wait_for_ready = True):
             data = resp
         if isinstance(data,  type(None)): # For reference see Breaking issues in README   
@@ -51,6 +52,7 @@ class query_node:
         kas_msg.getCurrentNetworkRequest.SetInParent()
         temp_chan = grpc.insecure_channel(f'{addr}')
         temp_stub = RPCStub(temp_chan)
+        data = None
         for resp in temp_stub.MessageStream(iter([kas_msg]), wait_for_ready = True):
             data = resp
         if isinstance(data,  type(None)): # For reference see Breaking issues in README   

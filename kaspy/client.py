@@ -17,7 +17,7 @@ LOG = getLogger('[KASPA_CLIENT]')
 class kaspa_client:
     
     def __init__(self):
-        self._stream = None
+        self._stub = RPCStub
         self._chan = None
         self.node = None
         self._is_connected = lambda : True if self._chan else False
@@ -29,7 +29,7 @@ class kaspa_client:
         self.host = Node
 
     def _reset(self):
-        self._stream = None
+        self._stub = RPCStub
         self._requests = NotImplemented
         self._responses = NotImplemented
         self.node = None
@@ -66,13 +66,14 @@ class kaspa_client:
         '''
         LOG.info(lm.REQUEST_MESSAGE(command, self.node))
         payload = self._serialize_request(command, payload)
-        for resp in self._stub.MessageStream(iter([payload, payload]),  wait_for_ready = True):
+        data = None
+        for resp in self._stub.MessageStream(iter([payload]),  wait_for_ready = True):
             data = resp    
         if isinstance(data,  type(None)):
             LOG.debug(e.ResponseAsNoneType(data))
             pass
         elif isinstance(data, KaspadMessage):
-            resp = json_format.MessageToJson(data)
+            data = json_format.MessageToJson(data)
             LOG.info(lm.RETRIVED_MESSAGE(
                 next(iter(json.loads(data).keys())),
                 command,
@@ -86,7 +87,7 @@ class kaspa_client:
         self.node = Node(f'{host}:{port}')
         LOG.info(lm.CONNECTING_TO_NODE(self.node))
         self._chan = grpc.insecure_channel(self.node.addr)
-        self._stream = RPCStub(self._chan).MessageStream
+        self._stub = RPCStub(self._chan)
         LOG.info(lm.CONNECTED_TO_NODE(self.node))
     
     def close(self):
