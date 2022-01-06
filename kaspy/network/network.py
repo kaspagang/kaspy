@@ -16,7 +16,7 @@ class kaspa_network:
     
     allowed_subnetworks = sub_networks
     default_port = default_port
-    min_kaspa_version = ver(kaspad_version) if isinstance(kaspad_version, str) else kaspad_version
+    min_kaspa_version = ver.parse_from_string(kaspad_version) if isinstance(kaspad_version, str) else kaspad_version
     dns_seed_servers = [
         f"mainnet-dnsseed.daglabs-dev.com",
         f"mainnet-dnsseed-1.kaspanet.org",
