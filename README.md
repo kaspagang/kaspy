@@ -83,4 +83,4 @@ kaspa_version = 'v0.11.9' # min kaspa version to connect to
 - Documentation
 - Allow for commandline use
   
-### Donations welcome @ kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89 
+**Donations welcome @ kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89**
