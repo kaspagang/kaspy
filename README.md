@@ -4,69 +4,79 @@ Python implementation of a kaspa-grpc client
 
 ## WORK IN PROGRESS...
 
-**only for experimental use - until stable**
+**only for experimental use - Not stable**
+
+please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!
 
 ## Authors
 
 [@D-Stacks](https://github.com/D-Stacks)
 
 ## Requirements
-    grpc
-    google
+- grpc
+- google
+    
+## Basic Documentaion:
 
-### Breaking Issues
+```python
 
-`ResponseAsNoneType` --> custom exception
+# Import the kaspa client
+from kaspy.client import kaspa_client
+    
+    #Initialize a client instance
+    client = kaspa_client() 
+    
+    #Connect to a predefined host
+    client.connect(host='<ip>', port='<>') 
+    
+    #OR
+    
+    #Connect to a a publicaly broadcasted node from the dns_seed_servers.
+    client.auto_connect() #note: it may take a while to find a responsive node
+    
+    #define the command you want to send
+    command = 'getInfoRequest'
+    
+    #build the payload for the command
+    payload = {} 
+    
+    #send the request to the server and retrive the response
+    resp  = client.request(command=command, payload=payload)
+    ```
+  
+for more references on commands and payloads see:
+https://github.com/kaspanet/kaspad/blob/master/infrastructure/network/netadapter/server/grpcserver/protowire/rpc.md 
+for conversions to KaspaMessage command names reference:
+https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
+    
 
-As far as I can debug it is caused by running `response = next(iter(MessageStream(iter([request,]))), None)` 
-thus, not reciving a response by calling `next` on the response_iterator results in `None`, the underlying Exception
-is actually a `StopIteration()`. The irksome thing about this is that:
-1) One message may cause a response to go through, but the next one may fail. This causes unreliable communication to servers and makes it impossible to establish a reliable connection.
-2) some messages seem to ge through near always, for example `addPeerRequest` was very stable during some tests, others are more prone to this error
+some settings you can apply for `auto_connect`
 
-Some things I tried:
-passing `timeout` or `wait_for_ready` i.e. `response = next(iter(MessageStream(iter([request,], timeout=10, wait_for_ready=True))), None)` does not solve the problem
+```python 
+from kaspy.defines import TESTNET, DEVNET, MAINNET, SIMNET
+form kaspy.settings import sub_networks, kaspa_version
 
-## Issues
-    - version checking not working properly
-    - Deal with `KaspaNetwork` when it is not in use (i.e. shut it down)
+sub_networks = [MAINNET, DEVNET] #subnetworks to connect to
+kaspa_version = 'v0.11.7' #min kaspa version to connect to
+```
+
+## Issues:
+
+### Breaking Issues:
+
+- https://github.com/kaspagang/kaspy/issues/1
+
+### Minor Issues:
+
+- Version checking not working properly
+- Deal with `KaspaNetwork` when it is not in use (i.e. shut it down)
+    
 ## To Do 
     - Fix breaking issue
+    - Fix issues
     - Clean up, lots of unused code left in place. 
     - Implement error handling
     - Documentation
     - Allow for commandline use
   
 
-## Basic Documentaion:
-
-### `kaspa_client()`
-
-returns a new kaspa client instance
-
-
-`.connect()`
-
-establishes a connection to a node
-
-    args:
-        address : str
-            host_address in format: `'<ip>:<port>'`
-
-`.auto_connect()`
-
-connects to a random node on the kaspa network
-    args : None
-
-`.request()`
-
-send command + payload, retrive response in json format
-    
-    args:
-        command : str
-            The message to send to the kaspa RPC node
-        payload : Union[dict, str] 
-            payload of the message (can be either be a python dict or json message)
-
-    returns: 
-        A json response object corrosponding to the command
