@@ -31,7 +31,8 @@ passing `timeout` or `wait_for_ready` i.e. `response = next(iter(MessageStream(i
     - version checking not working properly
 
 ## To Do 
-    - fix breaking issue
+    - Fix breaking issue
+    - Clean up, lots of unused code left in place. 
     - Implement error handling
     - Documentation
     - Allow for commandline use
