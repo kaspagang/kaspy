@@ -1,4 +1,8 @@
-# WORK IN PROGRESS...
+# kaspy
+
+Python implementation of a kaspa-grpc client
+
+## WORK IN PROGRESS...
 
 **only for experimental use - until stable**
 
