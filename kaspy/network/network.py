@@ -4,8 +4,7 @@ import threading
 from ..defines import MAINNET, log_messages as lm
 from .node import Node, query_node
 from ..settings import default_port, sub_networks, kaspad_version
- #import SOCK_STREAM, socket
-
+from ..utils.version_control import version as ver
 import random
 import time
 from threading import Thread, Lock
@@ -15,8 +14,9 @@ LOG = getLogger('[KASPA_NET]')
 
 class kaspa_network:
     
+    allowed_subnetworks = sub_networks
     default_port = default_port
-    current_kaspa_version = kaspad_version
+    min_kaspa_version = ver(kaspad_version) if isinstance(kaspad_version, str) else kaspad_version
     dns_seed_servers = [
         f"mainnet-dnsseed.daglabs-dev.com",
         f"mainnet-dnsseed-1.kaspanet.org",
@@ -29,7 +29,7 @@ class kaspa_network:
         f"kaspadns.kaspacalc.net"
     ]
     
-    def __init__(self, sub_networks=sub_networks, min_kaspa_version=current_kaspa_version, scan_interval=60, max_nodes=64):
+    def __init__(self, sub_networks=allowed_subnetworks, min_kaspa_version=min_kaspa_version, scan_interval=60, max_nodes=64):
         
         # ensure we don't put too much stress on the network
         assert scan_interval >= 60
