@@ -29,7 +29,7 @@ passing `timeout` or `wait_for_ready` i.e. `response = next(iter(MessageStream(i
 
 ## Issues
     - version checking not working properly
-
+    - Deal with `KaspaNetwork` when it is not in use (i.e. shut it down)
 ## To Do 
     - Fix breaking issue
     - Clean up, lots of unused code left in place. 
