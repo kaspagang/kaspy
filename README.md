@@ -57,10 +57,11 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 ### some settings you can apply to `auto_connect()`
 ````python 
 from kaspy.defines import TESTNET, DEVNET, MAINNET, SIMNET
-form kaspy.settings import sub_networks, kaspa_version
+form kaspy.settings import sub_networks, kaspa_version, defualt_port
 
-sub_networks = [MAINNET, DEVNET] #subnetworks to connect to
-kaspa_version = 'v0.11.7' #min kaspa version to connect to
+default_port = 16110
+sub_networks = [MAINNET] # subnetworks to connect to
+kaspa_version = 'v0.11.9' # min kaspa version to connect to
 ````
 
 ## Issues:
@@ -82,4 +83,4 @@ kaspa_version = 'v0.11.7' #min kaspa version to connect to
 - Documentation
 - Allow for commandline use
   
-
+### Donations welcome @ kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89 
