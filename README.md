@@ -4,10 +4,6 @@ Python implementation of a kaspa-grpc client
 
 ## work in progress...
 
-**only for experimental use**
-
-~~please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!~~
-
 ## Authors
 
 [@D-Stacks](https://github.com/D-Stacks)
