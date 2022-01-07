@@ -1,7 +1,7 @@
 from logging import getLogger, basicConfig, INFO
 import threading
 
-from ..defines import DEFAULT_PORT, MAINNET, log_messages as lm
+from ..defines import DEFAULT_PORT, log_messages as lm
 from .node import Node
 import random
 import time

@@ -37,6 +37,8 @@ class kaspa_client:
     def disconnect(self):
         self._stub = RPCStub
         self._activate_stream.clear()
+        self._requests = SimpleQueue()
+        self._responses = SimpleQueue()
         self.node = None
         self._chan.close()
         self._chan = None
@@ -67,15 +69,12 @@ class kaspa_client:
     def _stream(self):
         while True:
             self._activate_stream.wait()
-            print(type(self._requests_iterator()))
             for resp in self._stub.MessageStream(req for req in self._requests_iterator()):
                 self._responses.put(resp)
     
     def _requests_iterator(self):
         while True:
-            request = self._requests.get()
-            print(type(request))
-            yield request
+            yield self._requests.get()
     
     def send(self, command, payload):
         LOG.info(lm.REQUEST_MESSAGE(command, self.node))
@@ -93,10 +92,12 @@ class kaspa_client:
             kaspad_ver = ver.parse_from_string(kaspad_ver['getInfoResponse']['serverVersion'])
             if kaspad_ver < min_version:
                 LOG.info(lm.OLD_VERSION_ABORT(node, kaspad_ver, min_version))
+                self.disconnect()
                 continue
             kaspad_network = self.request('getCurrentNetworkRequest')['getCurrentNetworkResponse']['currentNetwork'].lower()
             if kaspad_network not in subnetworks:
                 LOG.info(lm.DISSALLOWED_NETWORK_ABORT(node, kaspad_network, subnetworks))
+                self.disconnect()
                 continue
             break
         LOG.info(lm.PASSED_VALIDITY_CHECKS(self.node, kaspad_ver, kaspad_network))
@@ -105,7 +106,6 @@ class kaspa_client:
     def request(self, command, payload = None):
         self.send(command, payload)
         resp = self.recv()
-        print(resp)
         LOG.info(lm.RETRIVED_MESSAGE(
             next(iter(resp.keys())),
             command,
@@ -119,7 +119,6 @@ class kaspa_client:
         self._chan = grpc.insecure_channel(self.node.addr, compression=grpc.Compression.Gzip)
         self._stub = RPCStub(self._chan)
         self._activate_stream.set()
-        #Thread(target=self._stream, daemon=True).start()
         LOG.info(lm.CONNECTED_TO_NODE(self.node))
     
     def close(self):
