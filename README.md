@@ -58,7 +58,7 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ### Breaking Issues:
 
-~~- https://github.com/kaspagang/kaspy/issues/1
+~~- https://github.com/kaspagang/kaspy/issues/1~~
 
 ### Minor Issues:
 
