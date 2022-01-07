@@ -4,9 +4,9 @@ Python implementation of a kaspa-grpc client
 
 ## work in progress...
 
-**only for experimental use - Not stable**
+**only for experimental use**
 
-please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!
+~~please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!
 
 ## Authors
 
@@ -68,18 +68,18 @@ kaspa_version = 'v0.11.9' # min kaspa version to connect to
 
 ### Breaking Issues:
 
-- https://github.com/kaspagang/kaspy/issues/1
+~~- https://github.com/kaspagang/kaspy/issues/1
 
 ### Minor Issues:
 
 - Version checking not working properly
-- Deal with `KaspaNetwork` when it is not in use (i.e. shut it down)
+~~- Deal with `kaspa_network` when it is not in use (i.e. shut it down)
     
 ## To Do 
-- Fix breaking issue
+~~- Fix breaking issue
 - Fix issues
 - Clean up, lots of unused code left in place. 
-- Implement error handling
+- Implement error handling and timeouts
 - Documentation
 - Allow for commandline use
   
