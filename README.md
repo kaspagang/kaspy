@@ -34,8 +34,7 @@ from kaspy.client import kaspa_client
     #OR
     
     #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-    client.auto_connect( min_version = <allowed kaspad versions> , subnetworks = <allowed networks) 
-        #note: it may take a while to find a responsive node
+    client.auto_connect() #note: it may take a while to find a responsive node
     
     #define the command you want to send
     command = 'getInfoRequest'
