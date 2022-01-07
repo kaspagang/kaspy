@@ -4,13 +4,20 @@ Python implementation of a kaspa-grpc client
 
 ## work in progress...
 
-## Authors
+## To Do 
+~~Fix breaking issue~~
 
-[@D-Stacks](https://github.com/D-Stacks)
+~~Clean up, lots of unused code left in place.~~
 
-## Requirements
-- grpc
-- google
+- Implement error handling and timeouts
+- Implement Host and Client health checks
+- Implement Streaming Callback handling of notification messages
+- Implement P2P communication
+- Documentation
+- Add to pip
+- Allow for commandline use
+- ...
+- Async Implementation
     
 ## Basic Documentaion:
 
@@ -48,19 +55,13 @@ https://github.com/kaspanet/kaspad/blob/master/infrastructure/network/netadapter
 for conversions to KaspaMessage command names reference:
 
 https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
-    
-## To Do 
-~~Fix breaking issue~~
-
-~~Clean up, lots of unused code left in place.~~
-
-- Implement error handling and timeouts
-- Implement Host and Client health checks
-- Implement Streaming Callback handling of notification messages
-- Implement P2P communication
-- Documentation
-- Allow for commandline use
-- ...
-- Async Implementation
   
 **Donations welcome @ kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89**
+
+## Authors
+
+[@D-Stacks](https://github.com/D-Stacks)
+
+## Requirements
+- grpc
+- google
