@@ -1,4 +1,6 @@
-from . import settings
+from threading import Event, Thread
+import time
+
 import grpc
 import json
 from google.protobuf import json_format
@@ -7,36 +9,38 @@ from logging import INFO, getLogger, basicConfig
 from .network.node import Node
 from .protos.messages_pb2 import KaspadMessage, _KASPADMESSAGE
 from .protos.messages_pb2_grpc import RPCStub
-from .defines import *
+from .defines import MAINNET, KASPAD_VERSION
 from .defines import log_messages as lm
 from .exceptions import exceptions as e
+from .network.network import kaspa_network 
+from .utils.version_control import version as ver
+from queue import SimpleQueue
 
 basicConfig(level=INFO)
 LOG = getLogger('[KASPA_CLIENT]')
+
 
 class kaspa_client:
     
     def __init__(self):
         self._stub = RPCStub
         self._chan = None
-        self.node = None
+        self.node = Node
         self._is_connected = lambda : True if self._chan else False
         
         #for future send() / recv()
-        self._requests = NotImplemented
-        self._responses = NotImplemented
+        self._requests = SimpleQueue()
+        self._responses = SimpleQueue()
+        self._activate_stream = Event()
+        self._streamer = Thread(target=self._stream, daemon=True).start()
         
-        self.host = Node
-
-    def _reset(self):
+    def disconnect(self):
         self._stub = RPCStub
-        self._requests = NotImplemented
-        self._responses = NotImplemented
+        self._activate_stream.clear()
         self.node = None
-        self.host = str()
-        self.port = str()
+        self._chan.close()
         self._chan = None
-    
+            
     def _serialize_request(self, command, payload):
         '''
         I am at a loss here, using eval is dirty, but only other option I can think of involves creating a huge dictionary manually.
@@ -52,45 +56,71 @@ class kaspa_client:
                 json_format.Parse(payload, app_msg)
         app_msg.SetInParent()
         return kaspa_msg
+
+
+    def _serialize_response_to_json(self, response):
+        raise NotImplementedError
     
-    def auto_connect(self, **kwargs):
+    def _serialize_response_to_dict(self, response):
+        return json_format.MessageToDict(response)
+    
+    def _stream(self):
+        while True:
+            self._activate_stream.wait()
+            print(type(self._requests_iterator()))
+            for resp in self._stub.MessageStream(req for req in self._requests_iterator()):
+                self._responses.put(resp)
+    
+    def _requests_iterator(self):
+        while True:
+            request = self._requests.get()
+            print(type(request))
+            yield request
+    
+    def send(self, command, payload):
+        LOG.info(lm.REQUEST_MESSAGE(command, self.node))
+        self._requests.put(self._serialize_request(command, payload))
+    
+    def recv(self):
+        return self._serialize_response_to_dict(self._responses.get())
+    
+    def auto_connect(self, min_version = KASPAD_VERSION, subnetworks = MAINNET):
         '''this may take a while...'''
-        from kaspy.network.network import KaspaNetwork
-        node = KaspaNetwork.retrive_valid_node()
-        host, port = node.ip, node.port
-        self.connect(host, port)            
+        kaspa_network.run()
+        for node in kaspa_network.yield_open_nodes():
+            self.connect(node.ip, node.port)
+            kaspad_ver = self.request('getInfoRequest')
+            kaspad_ver = ver.parse_from_string(kaspad_ver['getInfoResponse']['serverVersion'])
+            if kaspad_ver < min_version:
+                LOG.info(lm.OLD_VERSION_ABORT(node, kaspad_ver, min_version))
+                continue
+            kaspad_network = self.request('getCurrentNetworkRequest')['getCurrentNetworkResponse']['currentNetwork'].lower()
+            if kaspad_network not in subnetworks:
+                LOG.info(lm.DISSALLOWED_NETWORK_ABORT(node, kaspad_network, subnetworks))
+                continue
+            break
+        LOG.info(lm.PASSED_VALIDITY_CHECKS(self.node, kaspad_ver, kaspad_network))
+        kaspa_network.shut_down()        
     
     def request(self, command, payload = None):
-        '''
-        Requires debugging see README 'breaking issues' for reference. 
-        '''
-        LOG.info(lm.REQUEST_MESSAGE(command, self.node))
-        payload = self._serialize_request(command, payload)
-        data = None
-        for resp in self._stub.MessageStream(iter([payload]),  wait_for_ready = True):
-            data = resp    
-        if isinstance(data,  type(None)):
-            LOG.debug(e.ResponseAsNoneType(data))
-            pass
-        elif isinstance(data, KaspadMessage):
-            data = json_format.MessageToJson(data)
-            LOG.info(lm.RETRIVED_MESSAGE(
-                next(iter(json.loads(data).keys())),
-                command,
-                self.node
-                        ))
-            return data
-        else:
-            raise Exception(f'reponse was sent as type {type(resp)} expected type {type(KaspadMessage)}')
+        self.send(command, payload)
+        resp = self.recv()
+        print(resp)
+        LOG.info(lm.RETRIVED_MESSAGE(
+            next(iter(resp.keys())),
+            command,
+            self.node
+                    ))
+        return resp
 
     def connect(self, host=None, port=None):
         self.node = Node(f'{host}:{port}')
         LOG.info(lm.CONNECTING_TO_NODE(self.node))
-        self._chan = grpc.insecure_channel(self.node.addr)
+        self._chan = grpc.insecure_channel(self.node.addr, compression=grpc.Compression.Gzip)
         self._stub = RPCStub(self._chan)
+        self._activate_stream.set()
+        #Thread(target=self._stream, daemon=True).start()
         LOG.info(lm.CONNECTED_TO_NODE(self.node))
     
     def close(self):
-        self._chan.close()
-        self._reset()        
-        LOG.info(lm.CLOSING_CHANNEL(self.node))
+        raise NotImplementedError

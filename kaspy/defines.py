@@ -1,7 +1,13 @@
+from .utils.version_control import version as ver
+
 MAINNET = 'mainnet'
 TESTNET = 'testnet'
 DEVNET = 'devnet'
 SIMNET = 'simnet'
+
+DEFAULT_PORT = 16110
+KASPAD_VERSION = ver(0, 11, 9)
+SUBNETWORKS = (MAINNET,TESTNET,DEVNET,SIMNET)
 
 ABORT = '[aborted]'
 SUCCESS = '[successs]'
