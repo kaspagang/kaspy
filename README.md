@@ -4,9 +4,9 @@ Python implementation of a kaspa-grpc client
 
 ## work in progress...
 
-**only for experimental use - Not stable**
+**only for experimental use**
 
-please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!
+~~please see: https://github.com/kaspagang/kaspy/issues/1 if you want to make it useable!~~
 
 ## Authors
 
@@ -52,34 +52,24 @@ https://github.com/kaspanet/kaspad/blob/master/infrastructure/network/netadapter
 for conversions to KaspaMessage command names reference:
 
 https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
-    
-
-### some settings you can apply to `auto_connect()`
-````python 
-from kaspy.defines import TESTNET, DEVNET, MAINNET, SIMNET
-form kaspy.settings import sub_networks, kaspa_version, defualt_port
-
-default_port = 16110
-sub_networks = [MAINNET] # subnetworks to connect to
-kaspa_version = 'v0.11.9' # min kaspa version to connect to
-````
 
 ## Issues:
 
 ### Breaking Issues:
 
-- https://github.com/kaspagang/kaspy/issues/1
+~~- https://github.com/kaspagang/kaspy/issues/1 ~~
 
 ### Minor Issues:
 
 - Version checking not working properly
-- Deal with `KaspaNetwork` when it is not in use (i.e. shut it down)
+
+~~Deal with `kaspa_network` when it is not in use (i.e. shut it down)~~
     
 ## To Do 
-- Fix breaking issue
+~~Fix breaking issue~~
 - Fix issues
 - Clean up, lots of unused code left in place. 
-- Implement error handling
+- Implement error handling and timeouts
 - Documentation
 - Allow for commandline use
   
