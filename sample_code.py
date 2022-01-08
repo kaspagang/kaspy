@@ -1,8 +1,6 @@
 from kaspy.client import kaspa_client
 
-'''If you run this a thousand times it will eventually work... I promise'''
-
-command = 'getPeerAddressesRequest'
+command = 'getInfoRequest'
 payload = {}
 
 client = kaspa_client()

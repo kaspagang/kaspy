@@ -1,3 +1,10 @@
+#Reserved for my local repo:
+playground.py 
+dump/
+
+#old files:
+*.old
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -48,3 +55,4 @@ coverage.xml
 
 #proto files
 *.proto
+
