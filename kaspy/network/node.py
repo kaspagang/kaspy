@@ -1,8 +1,9 @@
 from logging import getLogger, basicConfig, INFO
+from typing import Set, Union, Iterator
 import socket
 import time
-
-from ..defines import log_messages as lm, RPC_DEF_PORT
+from ..log_handler.log_messages import network as net_lm
+from ..defines import P2P_DEF_PORT, RPC_DEF_PORT
 
 basicConfig(level=INFO)
 LOG = getLogger('[KASPA_NOD]')
@@ -12,66 +13,77 @@ class query_node:
     '''some socket things to navigate and check connectivity'''
     
     @classmethod
-    def port_open(cls, ip, port, timeout):
+    def port_open(cls, ip : str, port: Union[int, str], timeout : float) -> bool:
+        LOG.info(net_lm.PORT_QUERY(f'{ip}:{port}'))
         sock = socket.socket(socket.AF_INET, socket. SOCK_STREAM)
         sock.settimeout(timeout)
         try:
             if sock.connect_ex((ip, int(port))) == 0:
-                LOG.info(lm.PORT_OPEN(f'{ip}:{port}'))
+                LOG.info(net_lm.CHECK_PORT_STAUTS_OPEN(f'{ip}:{port}', port))
                 port_open = True
             else:
-                LOG.info(lm.PORT_CLOSED(f'{ip}:{port}'))
+                LOG.info(net_lm.CHECK_PORT_STAUTS_CLOSED(f'{ip}:{port}', port))
                 port_open = False
         except Exception as e:
             LOG.debug(e)
-            LOG.info(lm.PORT_CLOSED(f'{ip}:{port}'))
+            LOG.info(net_lm.CHECK_PORT_STAUTS_CLOSED(f'{ip}:{port}', port))
             port_open = False
         finally: sock.close()
         return port_open
     
     @classmethod
-    def latency(cls, ip, port, timeout):
+    def latency(cls, ip : str, port : Union[int, str], timeout: float) -> Union[float, None]:
+        LOG.info(net_lm.LATENCY_QUERY(f'{ip}:{port}'))
         sock = socket.socket(socket.AF_INET, socket. SOCK_STREAM)
         sock.settimeout(timeout)
         try:
             start = time.perf_counter()
             sock.connect((ip, int(port)))
             latency = time.perf_counter() - start
-            LOG.info(lm.LATENCY(f'{ip}:{port}', latency))
+            LOG.info(net_lm.CHECK_LATENCY_STATUS_DELAY(f'{ip}:{port}', latency))
         except Exception as e:
             LOG.debug(e)
+            LOG.info(net_lm.CHECK_LATENCY_STAUTS_NONE(f'{ip}:{port}'))
             latency= None
         finally: sock.close()
         return latency            
     
     @classmethod
-    def connected_peers(cls, ip, port):
+    def connected_peers(cls, ip : str, port : Union[str, int]) -> Union[Set[str], None]:
         try:
-            return set([f'{addr[-1][0]}:{port}' for addr in socket.getaddrinfo(host=ip, port=port)])
+            return set([f'{addr[-1][0]}:{port}' for addr in socket.getaddrinfo(host=ip, port=int(port))])
         except Exception as e:
             LOG.debug(e)
             return None
 
 class Node:
     
-    def __init__(self, addr: str) -> None:
-        self.ip, self.port = addr.rsplit(':', 1)
-        self.addr = addr
+    def __init__(self, ip: str, rpc_port = RPC_DEF_PORT, p2p_port = P2P_DEF_PORT) -> None:
+        self.ip = ip 
+        self.rpc_port = RPC_DEF_PORT
+        self.p2p_port = P2P_DEF_PORT
     
-    def rp2_enabled(self):
-        raise NotImplementedError
+    @property
+    def rpc_addr(self) -> str:
+        return f'{self.ip}:{self.rpc_port}'
+    @property
+    def p2p_addr(self) -> str:
+        return f'{self.ip}:{self.p2p_port}'
     
-    def p2p_enabled(self):
-        raise NotImplementedError
+    def rp2_port_open(self, timeout : Union[int, float]) -> None:
+        return query_node.port_open(self.ip, self.rpc_port, timeout)
     
-    def port_open(self, timeout, service=NotImplemented):
-        return query_node.port_open(self.ip, self.port, timeout)
+    def p2p_port_open(self, timeout : Union[int, float]) -> bool:
+        return query_node.port_open(self.ip, self.rpc_port, timeout)
     
-    def latency(self, timeout, service=NotImplemented):
-        return query_node.latency(self.ip, self.port, timeout)
+    def port_open(self, timeout : str, service : str = NotImplemented) -> bool:
+        return query_node.port_open(self.ip, self.rpc_port, timeout)
     
-    def __str__(self):
-        return self.addr
+    def latency(self, timeout : str, service : str = NotImplemented) -> bool:
+        return query_node.latency(self.ip, self.rpc_port, timeout)
+    
+    def __str__(self) -> str:
+        return f'{self.ip}:{self.rpc_port}' #keep for comaptibility with client class until dual RPC and P2P connections are dealt with
     
 class node_acquirer:
     
@@ -88,18 +100,26 @@ class node_acquirer:
     ]
     
     @classmethod
-    def yield_open_nodes(cls, max_latency, timeout, service = NotImplemented) -> Node:
-        LOG.info(lm.SCANNING_FOR_NODES)
+    def yield_open_nodes(cls, max_latency : float, timeout : float, service = NotImplemented) -> Iterator[Node]:
+        LOG.info(net_lm.SCANNING)
         while True:
             scanned = set()
             for dns_server in cls.dns_seed_servers:
                 addresses = query_node.connected_peers(ip=dns_server, port=RPC_DEF_PORT) - scanned
+                LOG.info(net_lm.SCANNING_RETRIVED_NODES_FROM(dns_server, addresses))
                 if not addresses: continue
                 for addr in addresses:
-                    node = Node(addr)
-                    LOG.info(lm.RETRIVED_NODE(node.ip, node.port))
-                    LOG.info(lm.CHECK_NODE(node))
-                    scanned.add(node.addr)
+                    node = Node(addr.rsplit(':', 1)[0])
+                    LOG.info(net_lm.CHECK_NODE(node))
+                    scanned.add(node.rpc_addr)
                     latency, port_open = node.latency(timeout), node.port_open(timeout)
-                    if latency and port_open and latency <= max_latency:
+                    if not isinstance(latency, type(None)) and latency <= max_latency:
+                        LOG.info(net_lm.CHECK_LATENCY_APPROVED(node.rpc_addr, latency, max_latency))
+                    else:
+                        LOG.info(net_lm.CHECK_LATENCY_DENIED(node.rpc_addr, latency, max_latency))
+                        continue
+                    if port_open:
+                        #LOG.info(net_lm.CHECK_PORT_APPROVED(node.rpc_addr))
                         yield node
+                    else: continue
+                        #LOG.info(net_lm.CHECK_PORT_DENIED(node.rpc_addr))

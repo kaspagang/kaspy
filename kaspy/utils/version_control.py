@@ -1,9 +1,13 @@
+from __future__ import annotations
+from typing import Union
+
+
 class version(object):
     
     _exclude = set(['x', 'xx', 'X', 'XX'])
     
     @classmethod
-    def parse_from_string(cls, string : str):
+    def parse_from_string(cls, string : str) -> version:
         split_string = string.rsplit('.')
         major, minor, bug_fix = tuple(split_string[-3:])
         major = int(''.join(filter(lambda x : str.isdigit(x) or x in cls._exclude, major)))
@@ -12,7 +16,8 @@ class version(object):
         return version(major, minor, bug_fix)
     
     
-    def __init__(self, major = 'xx', minor = 'xx', bug_fix='xx') -> None:
+    def __init__(self, major: Union[int, str] = 'xx', minor: Union[int, str] =  
+                 'xx', bug_fix: Union[int, str] = 'xx') -> None:
         self.major = major
         self.minor = minor
         self.bug_fix = bug_fix
@@ -37,7 +42,7 @@ class version(object):
         else:
             return False
     
-    def __gt__(self, comp) -> bool:
+    def __gt__(self, comp : object) -> bool:
         if set([self.major ,comp.major]) & self._exclude or self.major < comp.major:
             return True
         elif set([self.minor ,comp.minor]) & self._exclude or self.minor < comp.minor:
