@@ -1,11 +1,9 @@
-from kaspy.client import kaspa_client
-
-'''If you run this a thousand times it will eventually work... I promise'''
+from kaspy.Kaspa_clients import RPCClient
 
 command = 'getPeerAddressesRequest'
 payload = {}
 
-client = kaspa_client()
-client.auto_connect() #may take a while 
+client = RPCClient()
+client.auto_connect(min_kaspad_version='v.0.11.8') #may take a while 
 resp = client.request(command=command, payload=payload)
 print(resp)
