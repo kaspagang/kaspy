@@ -3,7 +3,7 @@ from typing import Set, Union, Iterator
 import socket
 import time
 from ..log_handler.log_messages import network as net_lm
-from ..defines import P2P_DEF_PORT, RPC_DEF_PORT
+from ..defines import MAINNET, P2P_DEF_PORTS, RPC_DEF_PORTS
 
 basicConfig(level=INFO)
 LOG = getLogger('[KASPA_NOD]')
@@ -13,26 +13,7 @@ class query_node:
     '''some socket things to navigate and check connectivity'''
     
     @classmethod
-    def port_open(cls, ip : str, port: Union[int, str], timeout : float) -> bool:
-        LOG.info(net_lm.PORT_QUERY(f'{ip}:{port}'))
-        sock = socket.socket(socket.AF_INET, socket. SOCK_STREAM)
-        sock.settimeout(timeout)
-        try:
-            if sock.connect_ex((ip, int(port))) == 0:
-                LOG.info(net_lm.CHECK_PORT_STAUTS_OPEN(f'{ip}:{port}', port))
-                port_open = True
-            else:
-                LOG.info(net_lm.CHECK_PORT_STAUTS_CLOSED(f'{ip}:{port}', port))
-                port_open = False
-        except Exception as e:
-            LOG.debug(e)
-            LOG.info(net_lm.CHECK_PORT_STAUTS_CLOSED(f'{ip}:{port}', port))
-            port_open = False
-        finally: sock.close()
-        return port_open
-    
-    @classmethod
-    def latency(cls, ip : str, port : Union[int, str], timeout: float) -> Union[float, None]:
+    def port_open(cls, ip : str, port : Union[int, str], timeout: float) -> Union[float, None]:
         LOG.info(net_lm.LATENCY_QUERY(f'{ip}:{port}'))
         sock = socket.socket(socket.AF_INET, socket. SOCK_STREAM)
         sock.settimeout(timeout)
@@ -58,32 +39,18 @@ class query_node:
 
 class Node:
     
-    def __init__(self, ip: str, rpc_port = RPC_DEF_PORT, p2p_port = P2P_DEF_PORT) -> None:
+    def __init__(self, ip: str, port: Union[str, int]) -> None:
         self.ip = ip 
-        self.rpc_port = RPC_DEF_PORT
-        self.p2p_port = P2P_DEF_PORT
+        self.port = port
     
-    @property
-    def rpc_addr(self) -> str:
-        return f'{self.ip}:{self.rpc_port}'
-    @property
-    def p2p_addr(self) -> str:
-        return f'{self.ip}:{self.p2p_port}'
+    def port_open(self, timeout) -> bool:
+        return bool(query_node.port_open(self.ip, self.port, timeout))
     
-    def rp2_port_open(self, timeout : Union[int, float]) -> None:
-        return query_node.port_open(self.ip, self.rpc_port, timeout)
-    
-    def p2p_port_open(self, timeout : Union[int, float]) -> bool:
-        return query_node.port_open(self.ip, self.rpc_port, timeout)
-    
-    def port_open(self, timeout : str, service : str = NotImplemented) -> bool:
-        return query_node.port_open(self.ip, self.rpc_port, timeout)
-    
-    def latency(self, timeout : str, service : str = NotImplemented) -> bool:
-        return query_node.latency(self.ip, self.rpc_port, timeout)
+    def __hash__(self) -> int:
+        return hash(f'{self}')
     
     def __str__(self) -> str:
-        return f'{self.ip}:{self.rpc_port}' #keep for comaptibility with client class until dual RPC and P2P connections are dealt with
+        return f'{self.ip}:{self.port}' #keep for comaptibility with client class until dual RPC and P2P connections are dealt with
     
 class node_acquirer:
     
@@ -100,26 +67,17 @@ class node_acquirer:
     ]
     
     @classmethod
-    def yield_open_nodes(cls, max_latency : float, timeout : float, service = NotImplemented) -> Iterator[Node]:
+    def yield_open_nodes(cls, port: Union[str, int]) -> Iterator[Node]:
         LOG.info(net_lm.SCANNING)
         while True:
             scanned = set()
             for dns_server in cls.dns_seed_servers:
-                addresses = query_node.connected_peers(ip=dns_server, port=RPC_DEF_PORT) - scanned
+                addresses = query_node.connected_peers(ip=dns_server, port=RPC_DEF_PORTS[MAINNET]) - scanned
                 LOG.info(net_lm.SCANNING_RETRIVED_NODES_FROM(dns_server, addresses))
                 if not addresses: continue
                 for addr in addresses:
-                    node = Node(addr.rsplit(':', 1)[0])
+                    node = Node(*addr.rsplit(':', 1))
                     LOG.info(net_lm.CHECK_NODE(node))
-                    scanned.add(node.rpc_addr)
-                    latency, port_open = node.latency(timeout), node.port_open(timeout)
-                    if not isinstance(latency, type(None)) and latency <= max_latency:
-                        LOG.info(net_lm.CHECK_LATENCY_APPROVED(node.rpc_addr, latency, max_latency))
-                    else:
-                        LOG.info(net_lm.CHECK_LATENCY_DENIED(node.rpc_addr, latency, max_latency))
-                        continue
-                    if port_open:
-                        #LOG.info(net_lm.CHECK_PORT_APPROVED(node.rpc_addr))
-                        yield node
-                    else: continue
-                        #LOG.info(net_lm.CHECK_PORT_DENIED(node.rpc_addr))
+                    if node in scanned: continue
+                    scanned.add(node)
+                    yield node

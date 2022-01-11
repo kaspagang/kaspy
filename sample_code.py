@@ -1,9 +1,9 @@
-from kaspy.client import kaspa_client
+from kaspy.Kaspa_clients import RPCClient
 
-command = 'getInfoRequest'
+command = 'getPeerAddressesRequest'
 payload = {}
 
-client = kaspa_client()
-client.auto_connect() #may take a while 
+client = RPCClient()
+client.auto_connect(min_kaspad_version='v.0.11.8') #may take a while 
 resp = client.request(command=command, payload=payload)
 print(resp)
