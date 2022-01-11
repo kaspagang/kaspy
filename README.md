@@ -31,7 +31,7 @@ Python implementation of a kaspa-grpc client
 from kaspy.kaspa_client import RPCClient
     
     #Initialize a client instance
-    client = RPCCclient() 
+    client = RPCClient() 
     
     #Connect to a predefined host
     client.connect(host='<ip>', port='<port>') 
