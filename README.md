@@ -4,6 +4,8 @@ Python implementation of a kaspa-grpc client
 
 ## work in progress...
 
+**Breaking changes will occur without prior notice!**
+
 ## To Do 
 ~~Fix breaking issue~~
 
