@@ -9,10 +9,15 @@ Python implementation of a kaspa-grpc client
 
 ~~Clean up, lots of unused code left in place.~~
 
-- Implement error handling and timeouts
-- Implement Host and Client health checks
+~~Implement error handling and timeouts ~~
+
+~~Implement Host and Client health checks~~ [Abondend]: error handling should be enough
+
 - Implement Streaming Callback handling of notification messages
-- Implement P2P communication
+- Implement P2P communication 
+  - ~~autoconnect~~ 
+  - heartbeat
+  - handshake
 - Documentation
 - Add to pip
 - Allow for commandline use
@@ -26,7 +31,7 @@ Python implementation of a kaspa-grpc client
 ```python
 
 # Import the kaspa client
-from kaspy.client import kaspa_client
+from kaspy.kaspa_clients import RPCClient
     
     #Initialize a client instance
     client = kaspa_client() 
@@ -37,7 +42,7 @@ from kaspy.client import kaspa_client
     #OR
     
     #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-    client.auto_connect() #note: it may take a while to find a responsive node
+    client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
     
     #define the command you want to send
     command = 'getInfoRequest'
@@ -47,6 +52,8 @@ from kaspy.client import kaspa_client
     
     #send the request to the server and retrive the response
     resp  = client.request(command=command, payload=payload)
+
+    print(resp)
 ````
 for more references on commands and payloads see:
 

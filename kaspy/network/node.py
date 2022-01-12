@@ -8,6 +8,7 @@ from ..defines import MAINNET, P2P_DEF_PORTS, RPC_DEF_PORTS
 basicConfig(level=INFO)
 LOG = getLogger('[KASPA_NOD]')
 
+UNKNOWEN = 'unknown'
 
 class query_node:
     '''some socket things to navigate and check connectivity'''
@@ -42,9 +43,15 @@ class Node:
     def __init__(self, ip: str, port: Union[str, int]) -> None:
         self.ip = ip 
         self.port = port
+        self.network = UNKNOWEN
+        self.version = UNKNOWEN
+        self.protocol = UNKNOWEN
     
-    def port_open(self, timeout) -> bool:
-        return bool(query_node.port_open(self.ip, self.port, timeout))
+    def port_open(self, timeout :float) -> bool:
+        return bool(self.latency(timeout))
+    
+    def latency(self, timeout :float):
+        return query_node.port_open(self.ip, self.port, timeout)
     
     def __hash__(self) -> int:
         return hash(f'{self}')
