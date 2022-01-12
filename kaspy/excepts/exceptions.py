@@ -24,6 +24,9 @@ class WrongService(Exception):
             could not send {command} to {server_service} host {node}; command is a 
             {RPC_SERVICE if server_service == P2P_SERVICE else P2P_SERVICE} command
             ''')
+class RPCServiceUnavailable(Exception):
+    def __init__(self, node, code, details):
+        super().__init__(f'Service on {node} is currently {code}.. Reason: {details}')
               
 class InvalidCommand(Exception):
     def __init__(self, node, command):
