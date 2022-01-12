@@ -13,8 +13,6 @@ Python implementation of a kaspa-grpc client
 
 ~~Implement error handling and timeouts ~~
 
-~~Implement Host and Client health checks~~ [Abondend]: error handling should be enough
-
 - Implement Streaming Callback handling of notification messages
 - Implement P2P communication 
   - ~~autoconnect~~ 
