@@ -11,7 +11,7 @@ Python implementation of a kaspa-grpc client
 
 ~~Clean up, lots of unused code left in place.~~
 
-~~Implement error handling and timeouts ~~
+~~Implement error handling and timeouts~~
 
 ~~Implement Streaming Callback handling of notification messages~~
 
@@ -43,7 +43,7 @@ client.connect(host='<ip>', port='<port>')
 client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
     
 ```
-#### sending a `request()`
+### sending a `request()`
 
 ```python
 #define the command you want to send
