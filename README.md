@@ -16,6 +16,7 @@ Python implementation of a kaspa-grpc client
 ~~Implement Streaming Callback handling of notification messages~~
 
 - Implement P2P communication 
+- Implement auto-reconnect options to client.
 - Documentation
 - Add to pip
 - Allow for commandline use
