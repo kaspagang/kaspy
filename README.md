@@ -56,7 +56,7 @@ def callback_func(notification : dict) # create a callback function to process t
     print(notification)
 
 #send the request to the server and retrive the response
-resp  = client.subscribe(command=command, payload=payload)
+resp  = client.subscribe(command=command, payload=payload callback=callback_func)
 
 import time
 time.sleep(5) # do stuff
