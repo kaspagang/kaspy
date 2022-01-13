@@ -1,6 +1,6 @@
 # kaspy
 
-Python implementation of a kaspa-grpc client
+Python implementation of a kaspa-grpc client.
 
 ## work in progress...
 
@@ -8,7 +8,7 @@ Python implementation of a kaspa-grpc client
     
 ## Basic Documentaion:
 
-### Connecting to a RPC server with `connect()` or `auto_connect()` 
+### Connecting to a RPC server with `connect()` or `auto_connect()`:
 
 ```python
 
@@ -25,10 +25,11 @@ client.connect(host='<ip>', port='<port>')
 
 #Connect to a a publicaly broadcasted node from the dns_seed_servers.
 client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
-    
 ```
-### sending a `request()`
 
+### Sending a `request()`:
+
+*continued...*
 ```python
 #define the command you want to send
 command = 'getInfoRequest'
@@ -40,10 +41,11 @@ payload = {} #in our case we don't need to send additional information
 resp  = client.request(command=command, payload=payload)
 
 print(resp) # print response
-
 ```
-### Subscribing to a stream with `subscribe()`
 
+### Subscribing to a stream with `subscribe()`:
+
+*continued...*
 ```python 
 
 command = 'notifyVirtualSelectedParentChainChangedRequest'
@@ -59,11 +61,11 @@ resp  = client.subscribe(command=command, payload=payload)
 time.sleep(5) # do stuff
 
 client.unsubscribe(command) #unsubscribe to the stream
-
-
 ```
 
 ### Disenganging the service with `close()` and `disconnect()`
+
+*continued...*
 ```python
 
 client.disconnect() # finishes sending all requests and responses in Que, halts all operations, but keeps the channel open.
@@ -80,7 +82,7 @@ for conversions to KaspaMessage command names reference:
 
 https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
-## To Do 
+## To Do:
 ~~Fix breaking issue~~
 
 ~~Clean up, lots of unused code left in place.~~
@@ -104,4 +106,6 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ## Authors 
 [@D-Stacks](https://github.com/D-Stacks)
+
 **Donations welcome @ kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89**
+
