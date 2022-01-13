@@ -58,6 +58,7 @@ def callback_func(notification : dict) # create a callback function to process t
 #send the request to the server and retrive the response
 resp  = client.subscribe(command=command, payload=payload)
 
+import time
 time.sleep(5) # do stuff
 
 client.unsubscribe(command) #unsubscribe to the stream
