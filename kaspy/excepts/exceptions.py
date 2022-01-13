@@ -32,4 +32,14 @@ class InvalidCommand(Exception):
     def __init__(self, node, command):
         '''Exception that is raised when command is not registered anywhere in the proto files'''
         super().__init__(f'could not send command {command} to {node}; {command} is not a valid command')
+
+class CommandIsNotSubcribable(Exception):
+     def __init__(self, node, command):
+        '''Exception that is raised when command is not registered anywhere in the proto files'''
+        super().__init__(f'cannot subscribe to {node} with {command}; {command} is not subscribable')
+
+class SubscriptionCannotBeUnsubscribed(Exception):
+     def __init__(self, node, command):
+        '''Exception that is raised when command is not registered anywhere in the proto files'''
+        super().__init__(f'cannot unsubscribe to {command} in {node}')
     

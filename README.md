@@ -13,13 +13,9 @@ Python implementation of a kaspa-grpc client
 
 ~~Implement error handling and timeouts ~~
 
-~~Implement Host and Client health checks~~ [Abondend]: error handling should be enough
+~~Implement Streaming Callback handling of notification messages~~
 
-- Implement Streaming Callback handling of notification messages
 - Implement P2P communication 
-  - ~~autoconnect~~ 
-  - heartbeat
-  - handshake
 - Documentation
 - Add to pip
 - Allow for commandline use
@@ -28,35 +24,70 @@ Python implementation of a kaspa-grpc client
     
 ## Basic Documentaion:
 
-### Sending a `request()` 
+### Connecting to a RPC server with `connect()` or `auto_connect()` 
 
 ```python
 
 # Import the kaspa client
 from kaspy.kaspa_clients import RPCClient
-    
-    #Initialize a client instance
-    client = RPCClient() 
-    
-    #Connect to a predefined host
-    client.connect(host='<ip>', port='<port>') 
-    
-    #OR
-    
-    #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-    client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
-    
-    #define the command you want to send
-    command = 'getInfoRequest'
-    
-    #build the payload for the command
-    payload = {} 
-    
-    #send the request to the server and retrive the response
-    resp  = client.request(command=command, payload=payload)
 
-    print(resp)
-````
+#Initialize a client instance
+client = RPCClient() 
+
+#Connect to a predefined host
+client.connect(host='<ip>', port='<port>') 
+
+#OR
+
+#Connect to a a publicaly broadcasted node from the dns_seed_servers.
+client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
+    
+```
+#### sending a `request()`
+
+```python
+#define the command you want to send
+command = 'getInfoRequest'
+
+#build the payload for the command
+payload = {} #in our case we don't need to send additional information 
+
+#send the request to the server and retrive the response
+resp  = client.request(command=command, payload=payload)
+
+print(resp) # print response
+
+```
+### Subscribing to a stream with `subscribe()`
+
+```python 
+
+command = 'notifyVirtualSelectedParentChainChangedRequest'
+
+payload = {}
+
+def callback_func(notification : dict) # create a callback function to process the notifications
+    print(notification)
+
+#send the request to the server and retrive the response
+resp  = client.subscribe(command=command, payload=payload)
+
+time.sleep(5) # do stuff
+
+client.unsubscribe(command) #unsubscribe to the stream
+
+
+```
+
+### Disenganging the service with `close()` and `disconnect()`
+```python
+
+client.disconnect() # finishes sending all requests and responses in Que, halts all operations, but keeps the channel open.
+
+client.close() # closes the channel completely
+
+```
+
 for more references on commands and payloads see:
 
 https://github.com/kaspanet/kaspad/blob/master/infrastructure/network/netadapter/server/grpcserver/protowire/rpc.md 
