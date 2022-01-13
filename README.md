@@ -64,7 +64,7 @@ time.sleep(5) # do stuff
 client.unsubscribe(command) #unsubscribe to the stream
 ```
 
-### Disenganging the service with `close()` and `disconnect()`
+### Disenganging the service with `close()` or `disconnect()`
 
 *continued...*
 ```python
