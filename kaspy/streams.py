@@ -84,9 +84,10 @@ class BaseStream:
 
 class RequestStream(BaseStream):
     
-    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None):
+    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter: set = set([])):
         super().__init__(node, stub, idle_timeout=idle_timeout)
         self._outputs = SimpleQueue()
+        self.filter = filter
         
     def get(self, timeout: Union[int, float, None] = None) -> KaspadMessage:
         try:
@@ -98,7 +99,11 @@ class RequestStream(BaseStream):
         self._inputs.put(input)
     
     def process_output(self, output):
-        self._outputs.put(output)
+        test = next(iter(output.keys()))
+        if test in self.filter:
+            pass
+        else:
+            self._outputs.put(output)
 
 class SubcribeStream(BaseStream):
     
@@ -121,6 +126,25 @@ class SubcribeStream(BaseStream):
     def process_output(self, output):
         if next(iter(output.keys())) == self._sub_msg:
             self._send_thread_to_callback(output)
+            
+class P2PRequestStream(BaseStream):
+    
+    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter_inv = True):
+        super().__init__(node, stub, idle_timeout=idle_timeout)
+        self._outputs = SimpleQueue()
+        self._filter_inv = filter_inv
         
-    def __hash__(self) -> int:
-        return self._hash
+    def get(self, timeout: Union[int, float, None] = None) -> KaspadMessage:
+        try:
+            return self._outputs.get(timeout=timeout)
+        except Empty:
+            raise TimeoutError
+    
+    def put(self, input):
+        self._inputs.put(input)
+    
+    def process_output(self, output):
+        if output.name in self.filter:
+            pass
+        else:
+            self._outputs.put(output)

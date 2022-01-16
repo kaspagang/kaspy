@@ -1,6 +1,5 @@
 from .utils.version_comparer import version as ver
-
-
+from . import __version__, __name__
 
 #### KASPAD defines #####
 
@@ -48,3 +47,6 @@ DISCONNECTED = 'disconnected' # disables send / recv, waits for queued send / re
 CLOSED = 'closed' # terminates the connection immediatly, does not wait for queued data, kills spin thread. does not expect a reconnection attempt. 
 
 ClIENT_STATES = (CONNECTED, DISCONNECTED, CLOSED) 
+
+### for p2p usage, I think I need ###
+USER_AGENT = f'{__version__} {__name__}'

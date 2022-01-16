@@ -19,15 +19,15 @@ command = 'getInfoRequest'
     
 #build the payload for the command
 payload = {} #in our case we don't need to send additional information 
-    
+
 #send the request to the server and retrive the response
 resp  = client.request(command=command, payload=payload)
 
 print(resp) # print response
 
-command = 'notifyVirtualSelectedParentBlueScoreChangedRequest'
+command = 'getBlockTemplateRequest'
 
-payload = {}
+payload = {'payAddress' : 'kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89'}
 
 def callback_func(notification : dict): # create a callback function to process the notifications
     print(notification)

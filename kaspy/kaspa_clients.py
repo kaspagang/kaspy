@@ -1,26 +1,25 @@
 import base64
-import string
 import grpc
-from threading import Event, Thread
+import time
 from collections import defaultdict
 from typing import Any, Callable, Dict, Iterator, Union
-from queue import Empty, SimpleQueue
-
-from google.protobuf import json_format
+from requests import get
+import base64
+import uuid
 from logging import DEBUG, INFO, getLogger, basicConfig
 
-from .streams import RequestStream, SubcribeStream
+from .streams import P2PRequestStream, RequestStream, SubcribeStream
 from .network.node import UNKNOWEN, Node, node_acquirer
 from .protos.messages_pb2 import KaspadMessage, _KASPADMESSAGE
 from .protos.messages_pb2_grpc import P2PStub, RPCStub
-from .defines import MAINNET, P2P_DEF_PORTS, P2P_SERVICE, RPC_DEF_PORTS, RPC_SERVICE, CONNECTED, CLOSED, DISCONNECTED
+from .defines import MAINNET, P2P_DEF_PORTS, P2P_SERVICE, RPC_DEF_PORTS, RPC_SERVICE, CONNECTED, CLOSED, DISCONNECTED, USER_AGENT
 from .log_handler.log_messages import client as cli_lm
 from .utils.version_comparer import version as ver
 from .excepts.exceptions import CLientClosed, ClientDisconnected, CommandIsNotSubcribable, InvalidCommand, RPCResponseException, RPCServiceUnavailable, SubscriptionCannotBeUnsubscribed
 
 
-basicConfig(level=INFO)
-basicConfig(level=DEBUG)
+#basicConfig(level=INFO)
+#basicConfig(level=DEBUG)
 LOG = getLogger('[KASPA_CLI]')
 
 
@@ -37,6 +36,7 @@ class BaseClient(_KaspaClient):
         self.client_status = str #hold client status : CONNECTED, DISCONNECTED or CLOSED
         self._subscriptions = defaultdict(dict) #hold subscription streams
         self.request_stream = RequestStream
+        self.restablish_new_connection  = None
         self.service
     
     # display node infos through the client:
@@ -111,12 +111,12 @@ class BaseClient(_KaspaClient):
         return sub_msg[0].lower() + sub_msg[1:]
     
     def subscribe(self, command: str,  callback: Callable[[dict], Any], payload: Union[dict, str, None] = None, idle_timeout: Union[float, None] = None) -> None:
-        if self._is_subscription_request(command):
-            self._subscriptions[command] = SubcribeStream(self.node, command, payload, callback, 
+        #if self._is_subscription_request(command):
+        self._subscriptions[command] = SubcribeStream(self.node, command, payload, callback, 
                                                           self._get_service_stub(), idle_timeout=idle_timeout)
-            self._subscriptions[command].start()
-        else:
-            raise CommandIsNotSubcribable(self.node, command)
+        self._subscriptions[command].start()
+        #else:
+            #raise CommandIsNotSubcribable(self.node, command)
     
     def unsubscribe(self, command: str) -> None:
         self._subscriptions[command].close()
@@ -206,6 +206,7 @@ class RPCClient(BaseClient):
         '''kaspa client for RPC services'''
         super().__init__()
         self.service = RPC_SERVICE
+        self.request_stream = P2PRequestStream
     
     # some more funcs to query for RPC server info
     
@@ -222,9 +223,10 @@ class RPCClient(BaseClient):
         return self.node.network
 
     def auto_connect(self, min_kaspad_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
-                         timeout: Union[float, None] = 10, max_latency: Union[float, None] =  None):
+                    timeout: Union[float, None] = 10, max_latency: Union[float, None] =  None, new_conn_on_err: bool = False) -> None:
         '''auto connect to a RPC node'''
         port = RPC_DEF_PORTS[subnetwork]
+        self.restablish_new_connection = new_conn_on_err
         for node in node_acquirer.yield_open_nodes(port = port):
             self.connect(node.ip, port)
             latency = self.kaspad_check_port(min(filter(bool, [timeout, max_latency]), default=None))
@@ -266,47 +268,72 @@ class P2PClient(BaseClient):
         '''kaspa client for P2P services'''
         super().__init__()
         self.service = P2P_SERVICE
-        raise NotImplementedError
+        self.id = str(uuid.uuid4())
+        self.request_stream = P2PRequestStream
+        self.external_ip =  get('https://api.ipify.org').text 
+        raise NotImplementedError # unstable, unfinished
         
     # some more funcs to query for P2P server info
     
-    def _handshake(self) -> str:
-        #perform handshake according to https://github.com/kaspanet/docs/blob/main/Reference/API/P2P.md
+    def _byte_ip_to_ip(self, ip):
+        if ip.startswith('AAAAAAAAAAAAA'):
+            return  '.'.join(str(c) for c in base64.b64decode(ip))
+        
+    def _heartbeat(self):
+        raise NotImplementedError
+    
+    def _handshake(self, timeouts):
+        # Perform handshake according to https://github.com/kaspanet/docs/blob/main/Reference/API/P2P.md
+        version_msg = self.recv(timeouts)['version'] # get version msg from kaspad
+        self.node.protocol = ver(version_msg['protocolVersion'], 0, 0)
+        self.node.version = ver.parse_from_string(version_msg['userAgent'].rsplit('/')[-2])
+        self.node.network = version_msg['network'].split('-')[-1]
+        self.send('verack') # Verify we got their version
+        my_version = {
+            'protocolVersion': version_msg['protocolVersion'], 
+            'services': '37', 
+            'timestamp': f'{int(time.time()*1000)}',
+            'address': {
+                'timestamp': f'{int(time.time()*1000)}', 
+                'ip': self.external_ip, 
+                'port': version_msg['address']['port']
+                }, 
+            'id': self.id,
+            'userAgent': USER_AGENT, # NKOTB
+            'network': version_msg['network'], 
+                }
+        self.send('version', my_version) #send our version
+        print(self.recv(timeouts)) # get their versack
+        self.send('addresses') # send empty addresses
+        print(self.recv(timeouts))# get their addresses
+        # now we have completed the handshake...
         pass
     
-    def _heartbeat(self, ping_msg):
-        #play ping -> pong according to https://github.com/kaspanet/docs/blob/main/Reference/API/P2P.md
-        pass
-    
-    def connect(self, host : str , port : int):
+    def connect(self, host : str , port : int, filter_inv: bool = True, handshake_timeouts: float =None):
         super().connect(host, port)
-        self._handshake()
-
+        if filter_inv:
+            self.request_stream.filter = set(('invRelayBlock', 'invTransactions'))
+        self._handshake(handshake_timeouts)
     
-    def auto_connect(self, min_protocol_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
+    def auto_connect(self, disable_relay_tx: bool = True, min_protocol_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
             min_kaspad_version: Union[ver, str, None] = None, timeout: Union[float, None] = 5, 
-            max_latency: Union[float, None] =  None):
-        import base64
+            max_latency: Union[float, None] =  None, new_conn_on_err: bool = False):
         '''auto connect to a P2P node'''
         port = P2P_DEF_PORTS[subnetwork]
+        self.restablish_new_connection = new_conn_on_err
         for node in node_acquirer.yield_open_nodes(port = port):
-            self.connect(node.ip, port)
-            latency = self.kaspad_check_port(min(filter(bool, [timeout, max_latency]), default=None))
-            if not latency: 
-                continue
-            if latency:
-                if max_latency:
-                    if latency > max_latency:
-                        continue
             try:
-                version_msg = self.recv(timeout)['version']
-            
+                self.connect(node.ip, port, disable_relay_tx, timeout)
+                latency = self.kaspad_check_port(min(filter(bool, [timeout, max_latency]), default=None))
+                if not latency: 
+                    continue
+                if latency:
+                    if max_latency:
+                        if latency > max_latency:
+                            continue
             except (RPCServiceUnavailable, TimeoutError) as e:
                 LOG.debug(e)
                 continue
-            self.node.protocol = version_msg['protocolVersion']
-            self.node.network =  version_msg['network'].split('-')[-1]
-            self.node.version = ver.parse_from_string(version_msg['userAgent'].split('/')[-2])
             if min_protocol_version:
                 if isinstance(min_protocol_version, str): 
                     min_protocol_version = ver.parse_from_string(min_protocol_version)
@@ -319,7 +346,7 @@ class P2PClient(BaseClient):
                 if isinstance(min_kaspad_version, str):
                     min_kaspad_version = ver.parse_from_string(self.node.version)
                 if self.node.version < min_kaspad_version:
-                    continue 
+                    continue
             break
 
 class DualClient(_KaspaClient):
@@ -329,7 +356,7 @@ class DualClient(_KaspaClient):
     def __init__(self) -> None:
         self.rpc_client = RPCClient
         self.p2p_client = P2PClient
-        raise NotImplementedError
+        raise NotImplementedError #only barebones idea.
     
     @property
     def client_status(self):
