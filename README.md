@@ -103,8 +103,9 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ~~add to pip~~
 
+~~Implement auto-reconnect options to client~~
+
 - Implement P2P communication 
-- Implement auto-reconnect options to client.
 - 2nd cleanup
 - Documentation
 - Allow for commandline use
