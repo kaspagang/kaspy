@@ -82,6 +82,9 @@ https://github.com/kaspanet/kaspad/blob/master/infrastructure/network/netadapter
 for conversions to KaspaMessage command names reference:
 
 https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
+## known issues:
+
+- `GLIBC_2.33' not found` : https://github.com/kaspagang/kaspy/issues/4 **[Workaround]**
 
 ## To Do:
 ~~Fix breaking issue~~
@@ -104,6 +107,9 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 ## Requirements
 - grpc
 - google
+
+## Contribute
+feel free to open a pull request. 
 
 ## Authors 
 [@D-Stacks](https://github.com/D-Stacks)
