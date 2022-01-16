@@ -25,9 +25,9 @@ resp  = client.request(command=command, payload=payload)
 
 print(resp) # print response
 
-command = 'getBlockTemplateRequest'
+command = 'notifyVirtualSelectedParentBlueScoreChangedRequest'
 
-payload = {'payAddress' : 'kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89'}
+payload = {}
 
 def callback_func(notification : dict): # create a callback function to process the notifications
     print(notification)
