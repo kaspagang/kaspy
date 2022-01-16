@@ -37,6 +37,9 @@ class BaseClient(_KaspaClient):
         self._subscriptions = defaultdict(dict) #hold subscription streams
         self.request_stream = RequestStream
         self.restablish_new_connection  = None
+        self._retry_count = None
+        self._retry_wait = None
+        self._auto_conn_params = None
         self.service
     
     # display node infos through the client:
@@ -72,7 +75,10 @@ class BaseClient(_KaspaClient):
         
         self._activate_stream.set()
 
-    def connect(self, host: str, port: Union[int, str], idle_timeout: Union[float, int, None] = None) -> None:
+    def connect(self, host: str, port: Union[int, str], idle_timeout: Union[float, int, None] = None, 
+                retry_count: float = None, retry_wait:float = None) -> None:
+        self._retry_count = retry_count if retry_count else 0
+        self._retry_wait = retry_wait if retry_wait else 0
         self.node = Node(host, port)
         LOG.info(cli_lm.CONN_ESTABLISHING(self.node))
         self.request_stream = RequestStream(node=self.node, stub=self._get_service_stub(), idle_timeout=idle_timeout)
@@ -164,6 +170,8 @@ class BaseClient(_KaspaClient):
             return self.request_stream.get(timeout)
         except grpc.RpcError as e:
             self._response_error_handler(str(e.code()), e.details())
+        except TimeoutError as te:
+            self._retry_connection(te)
             
     
     def request(self, command : str, payload: Union[dict, str, None] = None, timeout: Union[float, int, None] = None) -> Union[dict, str]:
@@ -189,13 +197,35 @@ class BaseClient(_KaspaClient):
         return self.node.latency(timeout)
     
     # Error handling:
+    def _retry_connection(self, err, counter = 0):
+        if counter == self._retry_count:
+            if self.restablish_new_connection:
+                self.auto_connect(*self._auto_conn_params) #save input from last auto_connect call
+            raise err
+        time.sleep(self._retry_wait)
+        self.connect(self.node.ip, self.node.port)
+        try:
+            self.request('getInfoRequest') # test the connection
+        except Exception as e:
+            LOG.debug(e)
+            self._retry_connection(err, counter=counter+1)
 
     def _response_error_handler(self, code : str, details : str):
         #for now raise until we have proper error handling. 
         if code == 'UNAVAILABLE': #only real exception I am catching during testing, I doubt there is anything we can do on the client side. 
-            raise RPCServiceUnavailable(self.node, code, details)
-        #will add error handling as issues arise - for now I will leave it as is. 
-        raise RPCResponseException(self.node, code, details)
+            err = RPCServiceUnavailable(self.node, code, details)
+            if self._retry_count:
+                LOG.debug(err)
+                self._retry_connection(err)
+            else:
+                raise err
+        #will add error handling as issues arise - for now I will leave it as is.
+        else:
+            err = RPCResponseException(self.node, code, details)
+            if self._retry_count:
+                LOG.debug(err)
+                self._retry_connection(err)
+            raise err
     
     def _requests_error_handler(self, command : str, payload : dict):
         #for now raise until we have proper error handling. 
@@ -223,13 +253,17 @@ class RPCClient(BaseClient):
         return self.node.network
 
     def auto_connect(self, min_kaspad_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
-                    timeout: Union[float, None] = 10, max_latency: Union[float, None] =  None, new_conn_on_err: bool = False) -> None:
+                    conn_timeout: Union[float, None] = 10, idel_timeout: float = None, max_latency: Union[float, None] =  None, 
+                    retry_count = None, retry_wait = None, new_conn_on_err: bool = False) -> None:
         '''auto connect to a RPC node'''
+        if new_conn_on_err:
+            self._auto_conn_params = tuple(locals().values(),)[1:] # for possible later use in self._retry_connection
+            print(self._auto_conn_params)
         port = RPC_DEF_PORTS[subnetwork]
         self.restablish_new_connection = new_conn_on_err
         for node in node_acquirer.yield_open_nodes(port = port):
-            self.connect(node.ip, port)
-            latency = self.kaspad_check_port(min(filter(bool, [timeout, max_latency]), default=None))
+            self.connect(node.ip, port, idel_timeout, retry_count, retry_wait)
+            latency = self.kaspad_check_port(min(filter(bool, [conn_timeout, max_latency]), default=None))
             if not latency:
                 self.close()
                 continue
@@ -240,14 +274,14 @@ class RPCClient(BaseClient):
                         continue
             try:
                 if subnetwork:
-                    if self.kaspad_network(timeout) != subnetwork:
+                    if self.kaspad_network(conn_timeout) != subnetwork:
                         self.close()
                         continue
                 if min_kaspad_version:
                     if isinstance(min_kaspad_version, str): 
                         min_kaspad_version = ver.parse_from_string(min_kaspad_version)
-                    if self.kaspad_version(timeout) <= min_kaspad_version:
-                        print(self.kaspad_version(timeout),  min_kaspad_version)
+                    if self.kaspad_version(conn_timeout) <= min_kaspad_version:
+                        print(self.kaspad_version(conn_timeout),  min_kaspad_version)
                         self.close()
                         continue
             except (RPCServiceUnavailable, TimeoutError) as e:

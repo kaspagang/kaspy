@@ -12,7 +12,7 @@ client = RPCClient()
     #OR
     
 #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-client.auto_connect() #n
+client.auto_connect()
 
 #define the command you want to send
 command = 'getInfoRequest'
