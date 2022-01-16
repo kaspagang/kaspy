@@ -1,4 +1,4 @@
-from .utils.version_comparer import version as ver
+from kaspy.utils.version_comparer import version as ver
 from . import __version__, __name__
 
 #### KASPAD defines #####

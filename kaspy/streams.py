@@ -1,7 +1,7 @@
-from .protos.messages_pb2_grpc import RPCStub, P2PStub
-from .protos.messages_pb2 import _KASPADMESSAGE, KaspadMessage
-from .network.node import Node
-from .defines import CONNECTED, DISCONNECTED, CLOSED
+from kaspy.protos.messages_pb2_grpc import RPCStub, P2PStub
+from kaspy.protos.messages_pb2 import _KASPADMESSAGE, KaspadMessage
+from kaspy.network.node import Node
+from kaspy.defines import CONNECTED, DISCONNECTED, CLOSED
 
 import grpc
 import json

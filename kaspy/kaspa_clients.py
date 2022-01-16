@@ -8,14 +8,14 @@ import base64
 import uuid
 from logging import DEBUG, INFO, getLogger, basicConfig
 
-from .streams import P2PRequestStream, RequestStream, SubcribeStream
-from .network.node import UNKNOWEN, Node, node_acquirer
-from .protos.messages_pb2 import KaspadMessage, _KASPADMESSAGE
-from .protos.messages_pb2_grpc import P2PStub, RPCStub
-from .defines import MAINNET, P2P_DEF_PORTS, P2P_SERVICE, RPC_DEF_PORTS, RPC_SERVICE, CONNECTED, CLOSED, DISCONNECTED, USER_AGENT
-from .log_handler.log_messages import client as cli_lm
-from .utils.version_comparer import version as ver
-from .excepts.exceptions import CLientClosed, ClientDisconnected, CommandIsNotSubcribable, InvalidCommand, RPCResponseException, RPCServiceUnavailable, SubscriptionCannotBeUnsubscribed
+from kaspy.streams import P2PRequestStream, RequestStream, SubcribeStream
+from kaspy.network.node import UNKNOWEN, Node, node_acquirer
+from kaspy.protos.messages_pb2 import KaspadMessage, _KASPADMESSAGE
+from kaspy.protos.messages_pb2_grpc import P2PStub, RPCStub
+from kaspy.defines import MAINNET, P2P_DEF_PORTS, P2P_SERVICE, RPC_DEF_PORTS, RPC_SERVICE, CONNECTED, CLOSED, DISCONNECTED, USER_AGENT
+from kaspy.log_handler.log_messages import client as cli_lm
+from kaspy.utils.version_comparer import version as ver
+from kaspy.excepts.exceptions import CLientClosed, ClientDisconnected, CommandIsNotSubcribable, InvalidCommand, RPCResponseException, RPCServiceUnavailable, SubscriptionCannotBeUnsubscribed
 
 
 #basicConfig(level=INFO)
