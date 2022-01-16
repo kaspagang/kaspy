@@ -22,5 +22,5 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
-    python_requires='>=3.9', #only version tested
+    python_requires='>=3.8', #only version tested
 )

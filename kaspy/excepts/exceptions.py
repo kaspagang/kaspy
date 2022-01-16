@@ -1,6 +1,5 @@
 from kaspy.defines import P2P_SERVICE, RPC_SERVICE
 
-
 class RPCResponseException(Exception):
     def __init__(self, node, code, details):
         '''Exception that is raised when server cannot process a request'''

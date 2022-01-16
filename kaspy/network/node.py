@@ -2,8 +2,8 @@ from logging import getLogger, basicConfig, INFO
 from typing import Set, Union, Iterator
 import socket
 import time
-from ..log_handler.log_messages import network as net_lm
-from ..defines import MAINNET, P2P_DEF_PORTS, RPC_DEF_PORTS
+from kaspy.log_handler.log_messages import network as net_lm
+from kaspy.defines import MAINNET, P2P_DEF_PORTS, RPC_DEF_PORTS
 
 #basicConfig(level=INFO)
 LOG = getLogger('[KASPA_NOD]')
