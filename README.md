@@ -105,7 +105,6 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ~~Implement auto-reconnect options to client~~
 
-
 - Implement P2P communication 
 - 2nd cleanup
 - Documentation
