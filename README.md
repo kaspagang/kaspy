@@ -5,7 +5,13 @@ Python implementation of a kaspa-grpc client.
 ## work in progress...
 
 **Breaking changes will occur without prior notice!**
-    
+
+## Installaton:
+
+```bash
+pip install kaspy
+```
+
 ## Basic Documentaion:
 
 ### Connecting to a RPC server with `connect()` or `auto_connect()`:
@@ -95,11 +101,12 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ~~Implement Streaming Callback handling of notification messages~~
 
+~~add to pip~~
+
 - Implement P2P communication 
 - Implement auto-reconnect options to client.
 - 2nd cleanup
 - Documentation
-- Add to pip
 - Allow for commandline use
 - ...
 - Async Implementation
