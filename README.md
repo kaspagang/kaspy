@@ -83,14 +83,6 @@ for conversions to KaspaMessage command names reference:
 
 https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
-## Issues:
-1) `GLIBC_2.33' not found`
-    - This has been documented for raspbian os, and seems to be an issue with the grpcio package
-    - issue is raised here: https://groups.google.com/g/grpc-io/c/vjbL3IdZ2Vk
-    - **my solution:** run `sudo pip3 install -v -v -v -U grpcio-tools --no-binary=grpcio-tools --force-reinstall` and then `sudo pip3 install -v -v -v -U grpcio --no-binary=grpcio --force-reinstall`.                    
-    - **note:** 1) force-reinstall` ensures non working versions are removed. 2) installing grpcio-tools after grpcio           seems to reinstall a non-working grpc package, so keep the order. 3) triple verbose helps to keep sanity in             check when installing from setup.py; otherwise it will seem like nothing is happening.
-                   
-
 ## To Do:
 ~~Fix breaking issue~~
 
