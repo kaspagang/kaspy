@@ -46,6 +46,7 @@ class Node:
         self.network = UNKNOWEN
         self.version = UNKNOWEN
         self.protocol = UNKNOWEN
+        self.utxoindex = UNKNOWEN
     
     def port_open(self, timeout :float) -> bool:
         return bool(self.latency(timeout))

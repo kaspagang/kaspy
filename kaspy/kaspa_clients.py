@@ -238,6 +238,10 @@ class RPCClient(BaseClient):
         self.service = RPC_SERVICE
         self.request_stream = P2PRequestStream
     
+    @property
+    def host_untxoindex(self):
+        return self.node.utxoindex
+    
     # some more funcs to query for RPC server info
     
     def kaspad_version(self, timeout) -> ver:
@@ -251,14 +255,26 @@ class RPCClient(BaseClient):
         if str(self.node.network) == UNKNOWEN:
             self.node.network = self.request('getCurrentNetworkRequest', timeout=timeout)['getCurrentNetworkResponse']['currentNetwork'].lower()
         return self.node.network
+    
+    def kaspad_utxoindex(self, timeout):
+        if str(self.node.utxoindex) == UNKNOWEN:
+            resp = self.request(
+                'getBalanceByAddressRequest', {
+                    'address' : 'kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89'
+                    }
+                , timeout) #would like to leave out a hard-coded address, but see no other way, for now.
+            if next(iter(resp.keys())) == 'getBalanceByAddressResponse':
+                self.node.utxoindex = True
+            else:
+                self.node.utxoindex = False 
+        return self.node.utxoindex
 
     def auto_connect(self, min_kaspad_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
-                    conn_timeout: Union[float, None] = 10, idel_timeout: float = None, max_latency: Union[float, None] =  None, 
-                    retry_count = None, retry_wait = None, new_conn_on_err: bool = False) -> None:
+                    conn_timeout: Union[float, None] = 3, idel_timeout: float = None, max_latency: Union[float, None] =  None, 
+                    retry_count = None, retry_wait = None, new_conn_on_err: bool = False, utxoindex: bool = False) -> None:
         '''auto connect to a RPC node'''
         if new_conn_on_err:
             self._auto_conn_params = tuple(locals().values(),)[1:] # for possible later use in self._retry_connection
-            print(self._auto_conn_params)
         port = RPC_DEF_PORTS[subnetwork]
         self.restablish_new_connection = new_conn_on_err
         for node in node_acquirer.yield_open_nodes(port = port):
@@ -273,6 +289,10 @@ class RPCClient(BaseClient):
                         self.close()
                         continue
             try:
+                if utxoindex == True:
+                    if not self.kaspad_utxoindex(conn_timeout):
+                        self.close()
+                        continue
                 if subnetwork:
                     if self.kaspad_network(conn_timeout) != subnetwork:
                         self.close()
