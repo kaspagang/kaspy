@@ -263,10 +263,11 @@ class RPCClient(BaseClient):
                     'address' : 'kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89'
                     }
                 , timeout) #would like to leave out a hard-coded address, but see no other way, for now.
-            if next(iter(resp.keys())) == 'getBalanceByAddressResponse':
+            try:
+                resp['getBalanceByAddressResponse']['balance']
                 self.node.utxoindex = True
-            else:
-                self.node.utxoindex = False 
+            except:
+                self.node.utxoindex = False
         return self.node.utxoindex
 
     def auto_connect(self, min_kaspad_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
