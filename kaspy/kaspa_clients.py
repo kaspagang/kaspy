@@ -280,7 +280,7 @@ class RPCClient(BaseClient):
                 if min_kaspad_version:
                     if isinstance(min_kaspad_version, str): 
                         min_kaspad_version = ver.parse_from_string(min_kaspad_version)
-                    if self.kaspad_version(conn_timeout) <= min_kaspad_version:
+                    if self.kaspad_version(conn_timeout) < min_kaspad_version:
                         self.close()
                         continue
             except (RPCServiceUnavailable, TimeoutError) as e:
