@@ -242,13 +242,13 @@ class RPCClient(BaseClient):
     
     def kaspad_version(self, timeout) -> ver:
         '''Query the kaspad version the host is running''' 
-        if self.node.version == UNKNOWEN:
+        if str(self.node.version) == UNKNOWEN:
             self.node.version = ver.parse_from_string(self.request('getInfoRequest', timeout=timeout)['getInfoResponse']['serverVersion'])
         return self.node.version
         
     def kaspad_network(self, timeout) -> str:
         '''Querx the kaspad network the host is running'''
-        if self.node.network == UNKNOWEN:
+        if str(self.node.network) == UNKNOWEN:
             self.node.network = self.request('getCurrentNetworkRequest', timeout=timeout)['getCurrentNetworkResponse']['currentNetwork'].lower()
         return self.node.network
 
@@ -281,7 +281,6 @@ class RPCClient(BaseClient):
                     if isinstance(min_kaspad_version, str): 
                         min_kaspad_version = ver.parse_from_string(min_kaspad_version)
                     if self.kaspad_version(conn_timeout) <= min_kaspad_version:
-                        print(self.kaspad_version(conn_timeout),  min_kaspad_version)
                         self.close()
                         continue
             except (RPCServiceUnavailable, TimeoutError) as e:
