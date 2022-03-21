@@ -2,6 +2,7 @@ syntax = "proto3";
 package protowire;
 
 option go_package = "github.com/kaspanet/kaspad/protowire";
+option py_generic_services = true;
 
 import "p2p.proto";
 import "rpc.proto";
@@ -44,6 +45,9 @@ message KaspadMessage {
     PruningPointsMessage pruningPoints = 47;
     RequestPruningPointProofMessage requestPruningPointProof = 48;
     PruningPointProofMessage pruningPointProof = 49;
+    ReadyMessage ready = 50;
+    BlockWithTrustedDataV4Message blockWithTrustedDataV4 = 51;
+    TrustedDataMessage trustedData = 52;
 
     GetCurrentNetworkRequestMessage getCurrentNetworkRequest = 1001;
     GetCurrentNetworkResponseMessage getCurrentNetworkResponse = 1002;

@@ -5,26 +5,38 @@ from kaspy.defines import CONNECTED, DISCONNECTED, CLOSED
 
 import grpc
 import json
+import sys
 from queue import Empty, SimpleQueue
 from google.protobuf import json_format
 from typing import Any, Callable, Union
 from threading import Event, Thread
 from .excepts.exceptions import InvalidCommand
 
+grpc.max_send_message_length = -1
+grpc.max_receive_message_length = -1
+
 class BaseStream:
     
-    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None):
-        self._conn = grpc.insecure_channel(f'{node}')
+    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, max_receive_size=(1024**2)*4):
+        print(max_receive_size)
+        self._conn = grpc.insecure_channel(
+            f'{node}',
+            options = [
+                ('grpc.max_send_message_length', -1),
+                ('grpc.max_receive_message_length', max_receive_size)
+                    ]
+                )
         self._stub = stub(self._conn)
         self._halt = Event()
         self._idle_timeout = idle_timeout
         self._inputs = SimpleQueue()
         self.status = CONNECTED
-    
+
     def start(self):
         Thread(target=self.run, daemon=True).start()
     
     def run(self):
+        self.status = CONNECTED
         self._halt.set()
         self.switch()
     
@@ -34,7 +46,7 @@ class BaseStream:
             for resp in self._stub.MessageStream((inp for inp in self.loop()), timeout=self._idle_timeout):
                 resp = self._serialize_response_to_dict(resp)
                 self.process_output(resp)
-        except grpc.RpcError as e:
+        except (grpc.RpcError, StopIteration) as e:
             if self.status == CLOSED:
                 pass
             else:
@@ -84,8 +96,8 @@ class BaseStream:
 
 class RequestStream(BaseStream):
     
-    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter: set = set([])):
-        super().__init__(node, stub, idle_timeout=idle_timeout)
+    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter: set = set([]),  max_receive_size=(1024**2)*4):
+        super().__init__(node, stub, idle_timeout=idle_timeout,  max_receive_size=max_receive_size)
         self._outputs = SimpleQueue()
         self.filter = filter
         
@@ -107,8 +119,8 @@ class RequestStream(BaseStream):
 
 class SubcribeStream(BaseStream):
     
-    def __init__(self, node, command: str, payload: Union[None,dict], callback: Callable[[dict], Any], stub: Union[RPCStub, P2PStub], idle_timeout: float = None):
-        super().__init__(node=node, stub=stub, idle_timeout=idle_timeout)
+    def __init__(self, node, command: str, payload: Union[None,dict], callback: Callable[[dict], Any], stub: Union[RPCStub, P2PStub], idle_timeout: float = None, max_receive_size=(1024**2)*4):
+        super().__init__(node=node, stub=stub, idle_timeout=idle_timeout, max_receive_size=max_receive_size)
         self.subscription = (command, payload)
         sub_msg = command[6:].replace('Request', 'Notification')
         self._sub_msg = sub_msg[0].lower() + sub_msg[1:]
@@ -129,10 +141,10 @@ class SubcribeStream(BaseStream):
             
 class P2PRequestStream(BaseStream):
     
-    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter_inv = True):
-        super().__init__(node, stub, idle_timeout=idle_timeout)
+    def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, filter_inv = True, max_receive_size=(1024**2)*4):
+        super().__init__(node, stub, idle_timeout=idle_timeout, max_receive_size=max_receive_size)
         self._outputs = SimpleQueue()
-        self._filter_inv = filter_inv
+        self.filter = filter_inv
         
     def get(self, timeout: Union[int, float, None] = None) -> KaspadMessage:
         try:
@@ -144,7 +156,7 @@ class P2PRequestStream(BaseStream):
         self._inputs.put(input)
     
     def process_output(self, output):
-        if output.name in self.filter:
-            pass
+        if self.filter and any(x in ('invRelayBlock', 'invTransactions') for x in output.keys()):
+            return None
         else:
             self._outputs.put(output)
