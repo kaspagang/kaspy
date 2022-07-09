@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trpc.proto\x12\tprotowire\"\x1b\n\x08RPCError\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x9b\x01\n\x08RpcBlock\x12)\n\x06header\x18\x01 \x01(\x0b\x32\x19.protowire.RpcBlockHeader\x12/\n\x0ctransactions\x18\x02 \x03(\x0b\x32\x19.protowire.RpcTransaction\x12\x33\n\x0bverboseData\x18\x03 \x01(\x0b\x32\x1e.protowire.RpcBlockVerboseData\"\x9e\x02\n\x0eRpcBlockHeader\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x30\n\x07parents\x18\x0c \x03(\x0b\x32\x1f.protowire.RpcBlockLevelParents\x12\x16\n\x0ehashMerkleRoot\x18\x03 \x01(\t\x12\x1c\n\x14\x61\x63\x63\x65ptedIdMerkleRoot\x18\x04 \x01(\t\x12\x16\n\x0eutxoCommitment\x18\x05 \x01(\t\x12\x11\n\ttimestamp\x18\x06 \x01(\x03\x12\x0c\n\x04\x62its\x18\x07 \x01(\r\x12\r\n\x05nonce\x18\x08 \x01(\x04\x12\x10\n\x08\x64\x61\x61Score\x18\t \x01(\x04\x12\x10\n\x08\x62lueWork\x18\n \x01(\t\x12\x14\n\x0cpruningPoint\x18\x0e \x01(\t\x12\x11\n\tblueScore\x18\r \x01(\x04\",\n\x14RpcBlockLevelParents\x12\x14\n\x0cparentHashes\x18\x01 \x03(\t\"\xac\x01\n\x13RpcBlockVerboseData\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x12\n\ndifficulty\x18\x0b \x01(\x01\x12\x1a\n\x12selectedParentHash\x18\r \x01(\t\x12\x16\n\x0etransactionIds\x18\x0e \x03(\t\x12\x14\n\x0cisHeaderOnly\x18\x0f \x01(\x08\x12\x11\n\tblueScore\x18\x10 \x01(\x04\x12\x16\n\x0e\x63hildrenHashes\x18\x11 \x03(\t\"\x84\x02\n\x0eRpcTransaction\x12\x0f\n\x07version\x18\x01 \x01(\r\x12.\n\x06inputs\x18\x02 \x03(\x0b\x32\x1e.protowire.RpcTransactionInput\x12\x30\n\x07outputs\x18\x03 \x03(\x0b\x32\x1f.protowire.RpcTransactionOutput\x12\x10\n\x08lockTime\x18\x04 \x01(\x04\x12\x14\n\x0csubnetworkId\x18\x05 \x01(\t\x12\x0b\n\x03gas\x18\x06 \x01(\x04\x12\x0f\n\x07payload\x18\x08 \x01(\t\x12\x39\n\x0bverboseData\x18\t \x01(\x0b\x32$.protowire.RpcTransactionVerboseData\"\xc6\x01\n\x13RpcTransactionInput\x12\x30\n\x10previousOutpoint\x18\x01 \x01(\x0b\x32\x16.protowire.RpcOutpoint\x12\x17\n\x0fsignatureScript\x18\x02 \x01(\t\x12\x10\n\x08sequence\x18\x03 \x01(\x04\x12\x12\n\nsigOpCount\x18\x05 \x01(\r\x12>\n\x0bverboseData\x18\x04 \x01(\x0b\x32).protowire.RpcTransactionInputVerboseData\">\n\x12RpcScriptPublicKey\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x17\n\x0fscriptPublicKey\x18\x02 \x01(\t\"\x9f\x01\n\x14RpcTransactionOutput\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x04\x12\x36\n\x0fscriptPublicKey\x18\x02 \x01(\x0b\x32\x1d.protowire.RpcScriptPublicKey\x12?\n\x0bverboseData\x18\x03 \x01(\x0b\x32*.protowire.RpcTransactionOutputVerboseData\"3\n\x0bRpcOutpoint\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\r\n\x05index\x18\x02 \x01(\r\"\x81\x01\n\x0cRpcUtxoEntry\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x04\x12\x36\n\x0fscriptPublicKey\x18\x02 \x01(\x0b\x32\x1d.protowire.RpcScriptPublicKey\x12\x15\n\rblockDaaScore\x18\x03 \x01(\x04\x12\x12\n\nisCoinbase\x18\x04 \x01(\x08\"t\n\x19RpcTransactionVerboseData\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0c\n\x04hash\x18\x02 \x01(\t\x12\x0c\n\x04mass\x18\x04 \x01(\x04\x12\x11\n\tblockHash\x18\x0c \x01(\t\x12\x11\n\tblockTime\x18\x0e \x01(\x04\" \n\x1eRpcTransactionInputVerboseData\"^\n\x1fRpcTransactionOutputVerboseData\x12\x1b\n\x13scriptPublicKeyType\x18\x05 \x01(\t\x12\x1e\n\x16scriptPublicKeyAddress\x18\x06 \x01(\t\"!\n\x1fGetCurrentNetworkRequestMessage\"_\n GetCurrentNetworkResponseMessage\x12\x16\n\x0e\x63urrentNetwork\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"Z\n\x19SubmitBlockRequestMessage\x12\"\n\x05\x62lock\x18\x02 \x01(\x0b\x32\x13.protowire.RpcBlock\x12\x19\n\x11\x61llowNonDAABlocks\x18\x03 \x01(\x08\"\xc7\x01\n\x1aSubmitBlockResponseMessage\x12H\n\x0crejectReason\x18\x01 \x01(\x0e\x32\x32.protowire.SubmitBlockResponseMessage.RejectReason\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\":\n\x0cRejectReason\x12\x08\n\x04NONE\x10\x00\x12\x11\n\rBLOCK_INVALID\x10\x01\x12\r\n\tIS_IN_IBD\x10\x02\"4\n\x1eGetBlockTemplateRequestMessage\x12\x12\n\npayAddress\x18\x01 \x01(\t\"|\n\x1fGetBlockTemplateResponseMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\x12\x10\n\x08isSynced\x18\x02 \x01(\x08\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\" \n\x1eNotifyBlockAddedRequestMessage\"F\n\x1fNotifyBlockAddedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"C\n\x1d\x42lockAddedNotificationMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\" \n\x1eGetPeerAddressesRequestMessage\"\xd2\x01\n\x1fGetPeerAddressesResponseMessage\x12\x41\n\taddresses\x18\x01 \x03(\x0b\x32..protowire.GetPeerAddressesKnownAddressMessage\x12G\n\x0f\x62\x61nnedAddresses\x18\x02 \x03(\x0b\x32..protowire.GetPeerAddressesKnownAddressMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"3\n#GetPeerAddressesKnownAddressMessage\x12\x0c\n\x04\x41\x64\x64r\x18\x01 \x01(\t\"\"\n GetSelectedTipHashRequestMessage\"a\n!GetSelectedTipHashResponseMessage\x12\x17\n\x0fselectedTipHash\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"-\n\x1dGetMempoolEntryRequestMessage\x12\x0c\n\x04txId\x18\x01 \x01(\t\"m\n\x1eGetMempoolEntryResponseMessage\x12&\n\x05\x65ntry\x18\x01 \x01(\x0b\x32\x17.protowire.MempoolEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"!\n\x1fGetMempoolEntriesRequestMessage\"q\n GetMempoolEntriesResponseMessage\x12(\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x17.protowire.MempoolEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"K\n\x0cMempoolEntry\x12\x0b\n\x03\x66\x65\x65\x18\x01 \x01(\x04\x12.\n\x0btransaction\x18\x03 \x01(\x0b\x32\x19.protowire.RpcTransaction\"$\n\"GetConnectedPeerInfoRequestMessage\"\x81\x01\n#GetConnectedPeerInfoResponseMessage\x12\x35\n\x05infos\x18\x01 \x03(\x0b\x32&.protowire.GetConnectedPeerInfoMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\xdc\x01\n\x1bGetConnectedPeerInfoMessage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x18\n\x10lastPingDuration\x18\x03 \x01(\x03\x12\x12\n\nisOutbound\x18\x06 \x01(\x08\x12\x12\n\ntimeOffset\x18\x07 \x01(\x03\x12\x11\n\tuserAgent\x18\x08 \x01(\t\x12!\n\x19\x61\x64vertisedProtocolVersion\x18\t \x01(\r\x12\x15\n\rtimeConnected\x18\n \x01(\x03\x12\x11\n\tisIbdPeer\x18\x0b \x01(\x08\"=\n\x15\x41\x64\x64PeerRequestMessage\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x13\n\x0bisPermanent\x18\x02 \x01(\x08\"=\n\x16\x41\x64\x64PeerResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"f\n\x1fSubmitTransactionRequestMessage\x12.\n\x0btransaction\x18\x01 \x01(\x0b\x32\x19.protowire.RpcTransaction\x12\x13\n\x0b\x61llowOrphan\x18\x02 \x01(\x08\"^\n SubmitTransactionResponseMessage\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"7\n5NotifyVirtualSelectedParentChainChangedRequestMessage\"]\n6NotifyVirtualSelectedParentChainChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"v\n4VirtualSelectedParentChainChangedNotificationMessage\x12\x1f\n\x17removedChainBlockHashes\x18\x01 \x03(\t\x12\x1d\n\x15\x61\x64\x64\x65\x64\x43hainBlockHashes\x18\x03 \x03(\t\"C\n\x16GetBlockRequestMessage\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x1b\n\x13includeTransactions\x18\x03 \x01(\x08\"b\n\x17GetBlockResponseMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"3\n\x1bGetSubnetworkRequestMessage\x12\x14\n\x0csubnetworkId\x18\x01 \x01(\t\"U\n\x1cGetSubnetworkResponseMessage\x12\x10\n\x08gasLimit\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"I\n4GetVirtualSelectedParentChainFromBlockRequestMessage\x12\x11\n\tstartHash\x18\x01 \x01(\t\"\x9c\x01\n5GetVirtualSelectedParentChainFromBlockResponseMessage\x12\x1f\n\x17removedChainBlockHashes\x18\x01 \x03(\t\x12\x1d\n\x15\x61\x64\x64\x65\x64\x43hainBlockHashes\x18\x03 \x03(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"^\n\x17GetBlocksRequestMessage\x12\x0f\n\x07lowHash\x18\x01 \x01(\t\x12\x15\n\rincludeBlocks\x18\x02 \x01(\x08\x12\x1b\n\x13includeTransactions\x18\x03 \x01(\x08\"y\n\x18GetBlocksResponseMessage\x12\x13\n\x0b\x62lockHashes\x18\x04 \x03(\t\x12#\n\x06\x62locks\x18\x03 \x03(\x0b\x32\x13.protowire.RpcBlock\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1d\n\x1bGetBlockCountRequestMessage\"l\n\x1cGetBlockCountResponseMessage\x12\x12\n\nblockCount\x18\x01 \x01(\x04\x12\x13\n\x0bheaderCount\x18\x02 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1f\n\x1dGetBlockDagInfoRequestMessage\"\x92\x02\n\x1eGetBlockDagInfoResponseMessage\x12\x13\n\x0bnetworkName\x18\x01 \x01(\t\x12\x12\n\nblockCount\x18\x02 \x01(\x04\x12\x13\n\x0bheaderCount\x18\x03 \x01(\x04\x12\x11\n\ttipHashes\x18\x04 \x03(\t\x12\x12\n\ndifficulty\x18\x05 \x01(\x01\x12\x16\n\x0epastMedianTime\x18\x06 \x01(\x03\x12\x1b\n\x13virtualParentHashes\x18\x07 \x03(\t\x12\x18\n\x10pruningPointHash\x18\x08 \x01(\t\x12\x17\n\x0fvirtualDaaScore\x18\t \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"B\n%ResolveFinalityConflictRequestMessage\x12\x19\n\x11\x66inalityBlockHash\x18\x01 \x01(\t\"M\n&ResolveFinalityConflictResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\'\n%NotifyFinalityConflictsRequestMessage\"M\n&NotifyFinalityConflictsResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"A\n#FinalityConflictNotificationMessage\x12\x1a\n\x12violatingBlockHash\x18\x01 \x01(\t\"H\n+FinalityConflictResolvedNotificationMessage\x12\x19\n\x11\x66inalityBlockHash\x18\x01 \x01(\t\"\x18\n\x16ShutDownRequestMessage\">\n\x17ShutDownResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"Q\n\x18GetHeadersRequestMessage\x12\x11\n\tstartHash\x18\x01 \x01(\t\x12\r\n\x05limit\x18\x02 \x01(\x04\x12\x13\n\x0bisAscending\x18\x03 \x01(\x08\"Q\n\x19GetHeadersResponseMessage\x12\x0f\n\x07headers\x18\x01 \x03(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"5\n NotifyUtxosChangedRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"H\n!NotifyUtxosChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x85\x01\n\x1fUtxosChangedNotificationMessage\x12/\n\x05\x61\x64\x64\x65\x64\x18\x01 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\x12\x31\n\x07removed\x18\x02 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\"~\n\x15UtxosByAddressesEntry\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12(\n\x08outpoint\x18\x02 \x01(\x0b\x32\x16.protowire.RpcOutpoint\x12*\n\tutxoEntry\x18\x03 \x01(\x0b\x32\x17.protowire.RpcUtxoEntry\"<\n\'StopNotifyingUtxosChangedRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"O\n(StopNotifyingUtxosChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"6\n!GetUtxosByAddressesRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"|\n\"GetUtxosByAddressesResponseMessage\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"4\n!GetBalanceByAddressRequestMessage\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\"Z\n\"GetBalanceByAddressResponseMessage\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"1\n/GetVirtualSelectedParentBlueScoreRequestMessage\"j\n0GetVirtualSelectedParentBlueScoreResponseMessage\x12\x11\n\tblueScore\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\";\n9NotifyVirtualSelectedParentBlueScoreChangedRequestMessage\"a\n:NotifyVirtualSelectedParentBlueScoreChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"b\n8VirtualSelectedParentBlueScoreChangedNotificationMessage\x12&\n\x1evirtualSelectedParentBlueScore\x18\x01 \x01(\x04\",\n*NotifyVirtualDaaScoreChangedRequestMessage\"R\n+NotifyVirtualDaaScoreChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"D\n)VirtualDaaScoreChangedNotificationMessage\x12\x17\n\x0fvirtualDaaScore\x18\x01 \x01(\x04\"1\n/NotifyPruningPointUTXOSetOverrideRequestMessage\"W\n0NotifyPruningPointUTXOSetOverrideResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"0\n.PruningPointUTXOSetOverrideNotificationMessage\"8\n6StopNotifyingPruningPointUTXOSetOverrideRequestMessage\"^\n7StopNotifyingPruningPointUTXOSetOverrideResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1f\n\x11\x42\x61nRequestMessage\x12\n\n\x02ip\x18\x01 \x01(\t\"9\n\x12\x42\x61nResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"!\n\x13UnbanRequestMessage\x12\n\n\x02ip\x18\x01 \x01(\t\";\n\x14UnbanResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x17\n\x15GetInfoRequestMessage\"x\n\x16GetInfoResponseMessage\x12\r\n\x05p2pId\x18\x01 \x01(\t\x12\x13\n\x0bmempoolSize\x18\x02 \x01(\x04\x12\x15\n\rserverVersion\x18\x03 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"U\n,EstimateNetworkHashesPerSecondRequestMessage\x12\x12\n\nwindowSize\x18\x01 \x01(\r\x12\x11\n\tstartHash\x18\x02 \x01(\t\"t\n-EstimateNetworkHashesPerSecondResponseMessage\x12\x1e\n\x16networkHashesPerSecond\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCErrorB&Z$github.com/kaspanet/kaspad/protowireb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trpc.proto\x12\tprotowire\"\x1b\n\x08RPCError\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x9b\x01\n\x08RpcBlock\x12)\n\x06header\x18\x01 \x01(\x0b\x32\x19.protowire.RpcBlockHeader\x12/\n\x0ctransactions\x18\x02 \x03(\x0b\x32\x19.protowire.RpcTransaction\x12\x33\n\x0bverboseData\x18\x03 \x01(\x0b\x32\x1e.protowire.RpcBlockVerboseData\"\x9e\x02\n\x0eRpcBlockHeader\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x30\n\x07parents\x18\x0c \x03(\x0b\x32\x1f.protowire.RpcBlockLevelParents\x12\x16\n\x0ehashMerkleRoot\x18\x03 \x01(\t\x12\x1c\n\x14\x61\x63\x63\x65ptedIdMerkleRoot\x18\x04 \x01(\t\x12\x16\n\x0eutxoCommitment\x18\x05 \x01(\t\x12\x11\n\ttimestamp\x18\x06 \x01(\x03\x12\x0c\n\x04\x62its\x18\x07 \x01(\r\x12\r\n\x05nonce\x18\x08 \x01(\x04\x12\x10\n\x08\x64\x61\x61Score\x18\t \x01(\x04\x12\x10\n\x08\x62lueWork\x18\n \x01(\t\x12\x14\n\x0cpruningPoint\x18\x0e \x01(\t\x12\x11\n\tblueScore\x18\r \x01(\x04\",\n\x14RpcBlockLevelParents\x12\x14\n\x0cparentHashes\x18\x01 \x03(\t\"\xfb\x01\n\x13RpcBlockVerboseData\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x12\n\ndifficulty\x18\x0b \x01(\x01\x12\x1a\n\x12selectedParentHash\x18\r \x01(\t\x12\x16\n\x0etransactionIds\x18\x0e \x03(\t\x12\x14\n\x0cisHeaderOnly\x18\x0f \x01(\x08\x12\x11\n\tblueScore\x18\x10 \x01(\x04\x12\x16\n\x0e\x63hildrenHashes\x18\x11 \x03(\t\x12\x1b\n\x13mergeSetBluesHashes\x18\x12 \x03(\t\x12\x1a\n\x12mergeSetRedsHashes\x18\x13 \x03(\t\x12\x14\n\x0cisChainBlock\x18\x14 \x01(\x08\"\x84\x02\n\x0eRpcTransaction\x12\x0f\n\x07version\x18\x01 \x01(\r\x12.\n\x06inputs\x18\x02 \x03(\x0b\x32\x1e.protowire.RpcTransactionInput\x12\x30\n\x07outputs\x18\x03 \x03(\x0b\x32\x1f.protowire.RpcTransactionOutput\x12\x10\n\x08lockTime\x18\x04 \x01(\x04\x12\x14\n\x0csubnetworkId\x18\x05 \x01(\t\x12\x0b\n\x03gas\x18\x06 \x01(\x04\x12\x0f\n\x07payload\x18\x08 \x01(\t\x12\x39\n\x0bverboseData\x18\t \x01(\x0b\x32$.protowire.RpcTransactionVerboseData\"\xc6\x01\n\x13RpcTransactionInput\x12\x30\n\x10previousOutpoint\x18\x01 \x01(\x0b\x32\x16.protowire.RpcOutpoint\x12\x17\n\x0fsignatureScript\x18\x02 \x01(\t\x12\x10\n\x08sequence\x18\x03 \x01(\x04\x12\x12\n\nsigOpCount\x18\x05 \x01(\r\x12>\n\x0bverboseData\x18\x04 \x01(\x0b\x32).protowire.RpcTransactionInputVerboseData\">\n\x12RpcScriptPublicKey\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x17\n\x0fscriptPublicKey\x18\x02 \x01(\t\"\x9f\x01\n\x14RpcTransactionOutput\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x04\x12\x36\n\x0fscriptPublicKey\x18\x02 \x01(\x0b\x32\x1d.protowire.RpcScriptPublicKey\x12?\n\x0bverboseData\x18\x03 \x01(\x0b\x32*.protowire.RpcTransactionOutputVerboseData\"3\n\x0bRpcOutpoint\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\r\n\x05index\x18\x02 \x01(\r\"\x81\x01\n\x0cRpcUtxoEntry\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x04\x12\x36\n\x0fscriptPublicKey\x18\x02 \x01(\x0b\x32\x1d.protowire.RpcScriptPublicKey\x12\x15\n\rblockDaaScore\x18\x03 \x01(\x04\x12\x12\n\nisCoinbase\x18\x04 \x01(\x08\"t\n\x19RpcTransactionVerboseData\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0c\n\x04hash\x18\x02 \x01(\t\x12\x0c\n\x04mass\x18\x04 \x01(\x04\x12\x11\n\tblockHash\x18\x0c \x01(\t\x12\x11\n\tblockTime\x18\x0e \x01(\x04\" \n\x1eRpcTransactionInputVerboseData\"^\n\x1fRpcTransactionOutputVerboseData\x12\x1b\n\x13scriptPublicKeyType\x18\x05 \x01(\t\x12\x1e\n\x16scriptPublicKeyAddress\x18\x06 \x01(\t\"!\n\x1fGetCurrentNetworkRequestMessage\"_\n GetCurrentNetworkResponseMessage\x12\x16\n\x0e\x63urrentNetwork\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"Z\n\x19SubmitBlockRequestMessage\x12\"\n\x05\x62lock\x18\x02 \x01(\x0b\x32\x13.protowire.RpcBlock\x12\x19\n\x11\x61llowNonDAABlocks\x18\x03 \x01(\x08\"\xc7\x01\n\x1aSubmitBlockResponseMessage\x12H\n\x0crejectReason\x18\x01 \x01(\x0e\x32\x32.protowire.SubmitBlockResponseMessage.RejectReason\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\":\n\x0cRejectReason\x12\x08\n\x04NONE\x10\x00\x12\x11\n\rBLOCK_INVALID\x10\x01\x12\r\n\tIS_IN_IBD\x10\x02\"G\n\x1eGetBlockTemplateRequestMessage\x12\x12\n\npayAddress\x18\x01 \x01(\t\x12\x11\n\textraData\x18\x02 \x01(\t\"|\n\x1fGetBlockTemplateResponseMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\x12\x10\n\x08isSynced\x18\x02 \x01(\x08\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\" \n\x1eNotifyBlockAddedRequestMessage\"F\n\x1fNotifyBlockAddedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"C\n\x1d\x42lockAddedNotificationMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\" \n\x1eGetPeerAddressesRequestMessage\"\xd2\x01\n\x1fGetPeerAddressesResponseMessage\x12\x41\n\taddresses\x18\x01 \x03(\x0b\x32..protowire.GetPeerAddressesKnownAddressMessage\x12G\n\x0f\x62\x61nnedAddresses\x18\x02 \x03(\x0b\x32..protowire.GetPeerAddressesKnownAddressMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"3\n#GetPeerAddressesKnownAddressMessage\x12\x0c\n\x04\x41\x64\x64r\x18\x01 \x01(\t\"\"\n GetSelectedTipHashRequestMessage\"a\n!GetSelectedTipHashResponseMessage\x12\x17\n\x0fselectedTipHash\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"g\n\x1dGetMempoolEntryRequestMessage\x12\x0c\n\x04txId\x18\x01 \x01(\t\x12\x19\n\x11includeOrphanPool\x18\x02 \x01(\x08\x12\x1d\n\x15\x66ilterTransactionPool\x18\x03 \x01(\x08\"m\n\x1eGetMempoolEntryResponseMessage\x12&\n\x05\x65ntry\x18\x01 \x01(\x0b\x32\x17.protowire.MempoolEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"[\n\x1fGetMempoolEntriesRequestMessage\x12\x19\n\x11includeOrphanPool\x18\x01 \x01(\x08\x12\x1d\n\x15\x66ilterTransactionPool\x18\x02 \x01(\x08\"q\n GetMempoolEntriesResponseMessage\x12(\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x17.protowire.MempoolEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"]\n\x0cMempoolEntry\x12\x0b\n\x03\x66\x65\x65\x18\x01 \x01(\x04\x12.\n\x0btransaction\x18\x03 \x01(\x0b\x32\x19.protowire.RpcTransaction\x12\x10\n\x08isOrphan\x18\x04 \x01(\x08\"$\n\"GetConnectedPeerInfoRequestMessage\"\x81\x01\n#GetConnectedPeerInfoResponseMessage\x12\x35\n\x05infos\x18\x01 \x03(\x0b\x32&.protowire.GetConnectedPeerInfoMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\xdc\x01\n\x1bGetConnectedPeerInfoMessage\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x18\n\x10lastPingDuration\x18\x03 \x01(\x03\x12\x12\n\nisOutbound\x18\x06 \x01(\x08\x12\x12\n\ntimeOffset\x18\x07 \x01(\x03\x12\x11\n\tuserAgent\x18\x08 \x01(\t\x12!\n\x19\x61\x64vertisedProtocolVersion\x18\t \x01(\r\x12\x15\n\rtimeConnected\x18\n \x01(\x03\x12\x11\n\tisIbdPeer\x18\x0b \x01(\x08\"=\n\x15\x41\x64\x64PeerRequestMessage\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x13\n\x0bisPermanent\x18\x02 \x01(\x08\"=\n\x16\x41\x64\x64PeerResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"f\n\x1fSubmitTransactionRequestMessage\x12.\n\x0btransaction\x18\x01 \x01(\x0b\x32\x19.protowire.RpcTransaction\x12\x13\n\x0b\x61llowOrphan\x18\x02 \x01(\x08\"^\n SubmitTransactionResponseMessage\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"^\n5NotifyVirtualSelectedParentChainChangedRequestMessage\x12%\n\x1dincludeAcceptedTransactionIds\x18\x01 \x01(\x08\"]\n6NotifyVirtualSelectedParentChainChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\xb9\x01\n4VirtualSelectedParentChainChangedNotificationMessage\x12\x1f\n\x17removedChainBlockHashes\x18\x01 \x03(\t\x12\x1d\n\x15\x61\x64\x64\x65\x64\x43hainBlockHashes\x18\x03 \x03(\t\x12\x41\n\x16\x61\x63\x63\x65ptedTransactionIds\x18\x02 \x03(\x0b\x32!.protowire.AcceptedTransactionIds\"C\n\x16GetBlockRequestMessage\x12\x0c\n\x04hash\x18\x01 \x01(\t\x12\x1b\n\x13includeTransactions\x18\x03 \x01(\x08\"b\n\x17GetBlockResponseMessage\x12\"\n\x05\x62lock\x18\x03 \x01(\x0b\x32\x13.protowire.RpcBlock\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"3\n\x1bGetSubnetworkRequestMessage\x12\x14\n\x0csubnetworkId\x18\x01 \x01(\t\"U\n\x1cGetSubnetworkResponseMessage\x12\x10\n\x08gasLimit\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"p\n4GetVirtualSelectedParentChainFromBlockRequestMessage\x12\x11\n\tstartHash\x18\x01 \x01(\t\x12%\n\x1dincludeAcceptedTransactionIds\x18\x02 \x01(\x08\"T\n\x16\x41\x63\x63\x65ptedTransactionIds\x12\x1a\n\x12\x61\x63\x63\x65ptingBlockHash\x18\x01 \x01(\t\x12\x1e\n\x16\x61\x63\x63\x65ptedTransactionIds\x18\x02 \x03(\t\"\xdf\x01\n5GetVirtualSelectedParentChainFromBlockResponseMessage\x12\x1f\n\x17removedChainBlockHashes\x18\x01 \x03(\t\x12\x1d\n\x15\x61\x64\x64\x65\x64\x43hainBlockHashes\x18\x03 \x03(\t\x12\x41\n\x16\x61\x63\x63\x65ptedTransactionIds\x18\x02 \x03(\x0b\x32!.protowire.AcceptedTransactionIds\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"^\n\x17GetBlocksRequestMessage\x12\x0f\n\x07lowHash\x18\x01 \x01(\t\x12\x15\n\rincludeBlocks\x18\x02 \x01(\x08\x12\x1b\n\x13includeTransactions\x18\x03 \x01(\x08\"y\n\x18GetBlocksResponseMessage\x12\x13\n\x0b\x62lockHashes\x18\x04 \x03(\t\x12#\n\x06\x62locks\x18\x03 \x03(\x0b\x32\x13.protowire.RpcBlock\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1d\n\x1bGetBlockCountRequestMessage\"l\n\x1cGetBlockCountResponseMessage\x12\x12\n\nblockCount\x18\x01 \x01(\x04\x12\x13\n\x0bheaderCount\x18\x02 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1f\n\x1dGetBlockDagInfoRequestMessage\"\x92\x02\n\x1eGetBlockDagInfoResponseMessage\x12\x13\n\x0bnetworkName\x18\x01 \x01(\t\x12\x12\n\nblockCount\x18\x02 \x01(\x04\x12\x13\n\x0bheaderCount\x18\x03 \x01(\x04\x12\x11\n\ttipHashes\x18\x04 \x03(\t\x12\x12\n\ndifficulty\x18\x05 \x01(\x01\x12\x16\n\x0epastMedianTime\x18\x06 \x01(\x03\x12\x1b\n\x13virtualParentHashes\x18\x07 \x03(\t\x12\x18\n\x10pruningPointHash\x18\x08 \x01(\t\x12\x17\n\x0fvirtualDaaScore\x18\t \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"B\n%ResolveFinalityConflictRequestMessage\x12\x19\n\x11\x66inalityBlockHash\x18\x01 \x01(\t\"M\n&ResolveFinalityConflictResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\'\n%NotifyFinalityConflictsRequestMessage\"M\n&NotifyFinalityConflictsResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"A\n#FinalityConflictNotificationMessage\x12\x1a\n\x12violatingBlockHash\x18\x01 \x01(\t\"H\n+FinalityConflictResolvedNotificationMessage\x12\x19\n\x11\x66inalityBlockHash\x18\x01 \x01(\t\"\x18\n\x16ShutDownRequestMessage\">\n\x17ShutDownResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"Q\n\x18GetHeadersRequestMessage\x12\x11\n\tstartHash\x18\x01 \x01(\t\x12\r\n\x05limit\x18\x02 \x01(\x04\x12\x13\n\x0bisAscending\x18\x03 \x01(\x08\"Q\n\x19GetHeadersResponseMessage\x12\x0f\n\x07headers\x18\x01 \x03(\t\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"5\n NotifyUtxosChangedRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"H\n!NotifyUtxosChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x85\x01\n\x1fUtxosChangedNotificationMessage\x12/\n\x05\x61\x64\x64\x65\x64\x18\x01 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\x12\x31\n\x07removed\x18\x02 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\"~\n\x15UtxosByAddressesEntry\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12(\n\x08outpoint\x18\x02 \x01(\x0b\x32\x16.protowire.RpcOutpoint\x12*\n\tutxoEntry\x18\x03 \x01(\x0b\x32\x17.protowire.RpcUtxoEntry\"<\n\'StopNotifyingUtxosChangedRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"O\n(StopNotifyingUtxosChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"6\n!GetUtxosByAddressesRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"|\n\"GetUtxosByAddressesResponseMessage\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .protowire.UtxosByAddressesEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"4\n!GetBalanceByAddressRequestMessage\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\"Z\n\"GetBalanceByAddressResponseMessage\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"9\n$GetBalancesByAddressesRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\"_\n\x16\x42\x61lancesByAddressEntry\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\x02 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x80\x01\n%GetBalancesByAddressesResponseMessage\x12\x32\n\x07\x65ntries\x18\x01 \x03(\x0b\x32!.protowire.BalancesByAddressEntry\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"1\n/GetVirtualSelectedParentBlueScoreRequestMessage\"j\n0GetVirtualSelectedParentBlueScoreResponseMessage\x12\x11\n\tblueScore\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\";\n9NotifyVirtualSelectedParentBlueScoreChangedRequestMessage\"a\n:NotifyVirtualSelectedParentBlueScoreChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"b\n8VirtualSelectedParentBlueScoreChangedNotificationMessage\x12&\n\x1evirtualSelectedParentBlueScore\x18\x01 \x01(\x04\",\n*NotifyVirtualDaaScoreChangedRequestMessage\"R\n+NotifyVirtualDaaScoreChangedResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"D\n)VirtualDaaScoreChangedNotificationMessage\x12\x17\n\x0fvirtualDaaScore\x18\x01 \x01(\x04\"1\n/NotifyPruningPointUTXOSetOverrideRequestMessage\"W\n0NotifyPruningPointUTXOSetOverrideResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"0\n.PruningPointUTXOSetOverrideNotificationMessage\"8\n6StopNotifyingPruningPointUTXOSetOverrideRequestMessage\"^\n7StopNotifyingPruningPointUTXOSetOverrideResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1f\n\x11\x42\x61nRequestMessage\x12\n\n\x02ip\x18\x01 \x01(\t\"9\n\x12\x42\x61nResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"!\n\x13UnbanRequestMessage\x12\n\n\x02ip\x18\x01 \x01(\t\";\n\x14UnbanResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x17\n\x15GetInfoRequestMessage\"\xa1\x01\n\x16GetInfoResponseMessage\x12\r\n\x05p2pId\x18\x01 \x01(\t\x12\x13\n\x0bmempoolSize\x18\x02 \x01(\x04\x12\x15\n\rserverVersion\x18\x03 \x01(\t\x12\x15\n\risUtxoIndexed\x18\x04 \x01(\x08\x12\x10\n\x08isSynced\x18\x05 \x01(\x08\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"U\n,EstimateNetworkHashesPerSecondRequestMessage\x12\x12\n\nwindowSize\x18\x01 \x01(\r\x12\x11\n\tstartHash\x18\x02 \x01(\t\"t\n-EstimateNetworkHashesPerSecondResponseMessage\x12\x1e\n\x16networkHashesPerSecond\x18\x01 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"&\n$NotifyNewBlockTemplateRequestMessage\"L\n%NotifyNewBlockTemplateResponseMessage\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"%\n#NewBlockTemplateNotificationMessage\"~\n\x15MempoolEntryByAddress\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12(\n\x07sending\x18\x02 \x03(\x0b\x32\x17.protowire.MempoolEntry\x12*\n\treceiving\x18\x03 \x03(\x0b\x32\x17.protowire.MempoolEntry\"y\n*GetMempoolEntriesByAddressesRequestMessage\x12\x11\n\taddresses\x18\x01 \x03(\t\x12\x19\n\x11includeOrphanPool\x18\x02 \x01(\x08\x12\x1d\n\x15\x66ilterTransactionPool\x18\x03 \x01(\x08\"\x85\x01\n+GetMempoolEntriesByAddressesResponseMessage\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .protowire.MempoolEntryByAddress\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCError\"\x1d\n\x1bGetCoinSupplyRequestMessage\"o\n\x1cGetCoinSupplyResponseMessage\x12\x10\n\x08maxSompi\x18\x01 \x01(\x04\x12\x18\n\x10\x63irculatingSompi\x18\x02 \x01(\x04\x12#\n\x05\x65rror\x18\xe8\x07 \x01(\x0b\x32\x13.protowire.RPCErrorB&Z$github.com/kaspanet/kaspad/protowireb\x06proto3')
 
 
 
@@ -66,6 +66,7 @@ _GETBLOCKRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetBlockResponseMes
 _GETSUBNETWORKREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetSubnetworkRequestMessage']
 _GETSUBNETWORKRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetSubnetworkResponseMessage']
 _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetVirtualSelectedParentChainFromBlockRequestMessage']
+_ACCEPTEDTRANSACTIONIDS = DESCRIPTOR.message_types_by_name['AcceptedTransactionIds']
 _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetVirtualSelectedParentChainFromBlockResponseMessage']
 _GETBLOCKSREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetBlocksRequestMessage']
 _GETBLOCKSRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetBlocksResponseMessage']
@@ -93,6 +94,9 @@ _GETUTXOSBYADDRESSESREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetUtxosB
 _GETUTXOSBYADDRESSESRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetUtxosByAddressesResponseMessage']
 _GETBALANCEBYADDRESSREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetBalanceByAddressRequestMessage']
 _GETBALANCEBYADDRESSRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetBalanceByAddressResponseMessage']
+_GETBALANCESBYADDRESSESREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetBalancesByAddressesRequestMessage']
+_BALANCESBYADDRESSENTRY = DESCRIPTOR.message_types_by_name['BalancesByAddressEntry']
+_GETBALANCESBYADDRESSESRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetBalancesByAddressesResponseMessage']
 _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetVirtualSelectedParentBlueScoreRequestMessage']
 _GETVIRTUALSELECTEDPARENTBLUESCORERESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetVirtualSelectedParentBlueScoreResponseMessage']
 _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['NotifyVirtualSelectedParentBlueScoreChangedRequestMessage']
@@ -114,6 +118,14 @@ _GETINFOREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetInfoRequestMessage
 _GETINFORESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetInfoResponseMessage']
 _ESTIMATENETWORKHASHESPERSECONDREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['EstimateNetworkHashesPerSecondRequestMessage']
 _ESTIMATENETWORKHASHESPERSECONDRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['EstimateNetworkHashesPerSecondResponseMessage']
+_NOTIFYNEWBLOCKTEMPLATEREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['NotifyNewBlockTemplateRequestMessage']
+_NOTIFYNEWBLOCKTEMPLATERESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['NotifyNewBlockTemplateResponseMessage']
+_NEWBLOCKTEMPLATENOTIFICATIONMESSAGE = DESCRIPTOR.message_types_by_name['NewBlockTemplateNotificationMessage']
+_MEMPOOLENTRYBYADDRESS = DESCRIPTOR.message_types_by_name['MempoolEntryByAddress']
+_GETMEMPOOLENTRIESBYADDRESSESREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetMempoolEntriesByAddressesRequestMessage']
+_GETMEMPOOLENTRIESBYADDRESSESRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetMempoolEntriesByAddressesResponseMessage']
+_GETCOINSUPPLYREQUESTMESSAGE = DESCRIPTOR.message_types_by_name['GetCoinSupplyRequestMessage']
+_GETCOINSUPPLYRESPONSEMESSAGE = DESCRIPTOR.message_types_by_name['GetCoinSupplyResponseMessage']
 _SUBMITBLOCKRESPONSEMESSAGE_REJECTREASON = _SUBMITBLOCKRESPONSEMESSAGE.enum_types_by_name['RejectReason']
 RPCError = _reflection.GeneratedProtocolMessageType('RPCError', (_message.Message,), {
   'DESCRIPTOR' : _RPCERROR,
@@ -451,6 +463,13 @@ GetVirtualSelectedParentChainFromBlockRequestMessage = _reflection.GeneratedProt
   })
 _sym_db.RegisterMessage(GetVirtualSelectedParentChainFromBlockRequestMessage)
 
+AcceptedTransactionIds = _reflection.GeneratedProtocolMessageType('AcceptedTransactionIds', (_message.Message,), {
+  'DESCRIPTOR' : _ACCEPTEDTRANSACTIONIDS,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.AcceptedTransactionIds)
+  })
+_sym_db.RegisterMessage(AcceptedTransactionIds)
+
 GetVirtualSelectedParentChainFromBlockResponseMessage = _reflection.GeneratedProtocolMessageType('GetVirtualSelectedParentChainFromBlockResponseMessage', (_message.Message,), {
   'DESCRIPTOR' : _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE,
   '__module__' : 'rpc_pb2'
@@ -640,6 +659,27 @@ GetBalanceByAddressResponseMessage = _reflection.GeneratedProtocolMessageType('G
   })
 _sym_db.RegisterMessage(GetBalanceByAddressResponseMessage)
 
+GetBalancesByAddressesRequestMessage = _reflection.GeneratedProtocolMessageType('GetBalancesByAddressesRequestMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETBALANCESBYADDRESSESREQUESTMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetBalancesByAddressesRequestMessage)
+  })
+_sym_db.RegisterMessage(GetBalancesByAddressesRequestMessage)
+
+BalancesByAddressEntry = _reflection.GeneratedProtocolMessageType('BalancesByAddressEntry', (_message.Message,), {
+  'DESCRIPTOR' : _BALANCESBYADDRESSENTRY,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.BalancesByAddressEntry)
+  })
+_sym_db.RegisterMessage(BalancesByAddressEntry)
+
+GetBalancesByAddressesResponseMessage = _reflection.GeneratedProtocolMessageType('GetBalancesByAddressesResponseMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETBALANCESBYADDRESSESRESPONSEMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetBalancesByAddressesResponseMessage)
+  })
+_sym_db.RegisterMessage(GetBalancesByAddressesResponseMessage)
+
 GetVirtualSelectedParentBlueScoreRequestMessage = _reflection.GeneratedProtocolMessageType('GetVirtualSelectedParentBlueScoreRequestMessage', (_message.Message,), {
   'DESCRIPTOR' : _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE,
   '__module__' : 'rpc_pb2'
@@ -787,6 +827,62 @@ EstimateNetworkHashesPerSecondResponseMessage = _reflection.GeneratedProtocolMes
   })
 _sym_db.RegisterMessage(EstimateNetworkHashesPerSecondResponseMessage)
 
+NotifyNewBlockTemplateRequestMessage = _reflection.GeneratedProtocolMessageType('NotifyNewBlockTemplateRequestMessage', (_message.Message,), {
+  'DESCRIPTOR' : _NOTIFYNEWBLOCKTEMPLATEREQUESTMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.NotifyNewBlockTemplateRequestMessage)
+  })
+_sym_db.RegisterMessage(NotifyNewBlockTemplateRequestMessage)
+
+NotifyNewBlockTemplateResponseMessage = _reflection.GeneratedProtocolMessageType('NotifyNewBlockTemplateResponseMessage', (_message.Message,), {
+  'DESCRIPTOR' : _NOTIFYNEWBLOCKTEMPLATERESPONSEMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.NotifyNewBlockTemplateResponseMessage)
+  })
+_sym_db.RegisterMessage(NotifyNewBlockTemplateResponseMessage)
+
+NewBlockTemplateNotificationMessage = _reflection.GeneratedProtocolMessageType('NewBlockTemplateNotificationMessage', (_message.Message,), {
+  'DESCRIPTOR' : _NEWBLOCKTEMPLATENOTIFICATIONMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.NewBlockTemplateNotificationMessage)
+  })
+_sym_db.RegisterMessage(NewBlockTemplateNotificationMessage)
+
+MempoolEntryByAddress = _reflection.GeneratedProtocolMessageType('MempoolEntryByAddress', (_message.Message,), {
+  'DESCRIPTOR' : _MEMPOOLENTRYBYADDRESS,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.MempoolEntryByAddress)
+  })
+_sym_db.RegisterMessage(MempoolEntryByAddress)
+
+GetMempoolEntriesByAddressesRequestMessage = _reflection.GeneratedProtocolMessageType('GetMempoolEntriesByAddressesRequestMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETMEMPOOLENTRIESBYADDRESSESREQUESTMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetMempoolEntriesByAddressesRequestMessage)
+  })
+_sym_db.RegisterMessage(GetMempoolEntriesByAddressesRequestMessage)
+
+GetMempoolEntriesByAddressesResponseMessage = _reflection.GeneratedProtocolMessageType('GetMempoolEntriesByAddressesResponseMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETMEMPOOLENTRIESBYADDRESSESRESPONSEMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetMempoolEntriesByAddressesResponseMessage)
+  })
+_sym_db.RegisterMessage(GetMempoolEntriesByAddressesResponseMessage)
+
+GetCoinSupplyRequestMessage = _reflection.GeneratedProtocolMessageType('GetCoinSupplyRequestMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETCOINSUPPLYREQUESTMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetCoinSupplyRequestMessage)
+  })
+_sym_db.RegisterMessage(GetCoinSupplyRequestMessage)
+
+GetCoinSupplyResponseMessage = _reflection.GeneratedProtocolMessageType('GetCoinSupplyResponseMessage', (_message.Message,), {
+  'DESCRIPTOR' : _GETCOINSUPPLYRESPONSEMESSAGE,
+  '__module__' : 'rpc_pb2'
+  # @@protoc_insertion_point(class_scope:protowire.GetCoinSupplyResponseMessage)
+  })
+_sym_db.RegisterMessage(GetCoinSupplyResponseMessage)
+
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
@@ -800,189 +896,213 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _RPCBLOCKLEVELPARENTS._serialized_start=500
   _RPCBLOCKLEVELPARENTS._serialized_end=544
   _RPCBLOCKVERBOSEDATA._serialized_start=547
-  _RPCBLOCKVERBOSEDATA._serialized_end=719
-  _RPCTRANSACTION._serialized_start=722
-  _RPCTRANSACTION._serialized_end=982
-  _RPCTRANSACTIONINPUT._serialized_start=985
-  _RPCTRANSACTIONINPUT._serialized_end=1183
-  _RPCSCRIPTPUBLICKEY._serialized_start=1185
-  _RPCSCRIPTPUBLICKEY._serialized_end=1247
-  _RPCTRANSACTIONOUTPUT._serialized_start=1250
-  _RPCTRANSACTIONOUTPUT._serialized_end=1409
-  _RPCOUTPOINT._serialized_start=1411
-  _RPCOUTPOINT._serialized_end=1462
-  _RPCUTXOENTRY._serialized_start=1465
-  _RPCUTXOENTRY._serialized_end=1594
-  _RPCTRANSACTIONVERBOSEDATA._serialized_start=1596
-  _RPCTRANSACTIONVERBOSEDATA._serialized_end=1712
-  _RPCTRANSACTIONINPUTVERBOSEDATA._serialized_start=1714
-  _RPCTRANSACTIONINPUTVERBOSEDATA._serialized_end=1746
-  _RPCTRANSACTIONOUTPUTVERBOSEDATA._serialized_start=1748
-  _RPCTRANSACTIONOUTPUTVERBOSEDATA._serialized_end=1842
-  _GETCURRENTNETWORKREQUESTMESSAGE._serialized_start=1844
-  _GETCURRENTNETWORKREQUESTMESSAGE._serialized_end=1877
-  _GETCURRENTNETWORKRESPONSEMESSAGE._serialized_start=1879
-  _GETCURRENTNETWORKRESPONSEMESSAGE._serialized_end=1974
-  _SUBMITBLOCKREQUESTMESSAGE._serialized_start=1976
-  _SUBMITBLOCKREQUESTMESSAGE._serialized_end=2066
-  _SUBMITBLOCKRESPONSEMESSAGE._serialized_start=2069
-  _SUBMITBLOCKRESPONSEMESSAGE._serialized_end=2268
-  _SUBMITBLOCKRESPONSEMESSAGE_REJECTREASON._serialized_start=2210
-  _SUBMITBLOCKRESPONSEMESSAGE_REJECTREASON._serialized_end=2268
-  _GETBLOCKTEMPLATEREQUESTMESSAGE._serialized_start=2270
-  _GETBLOCKTEMPLATEREQUESTMESSAGE._serialized_end=2322
-  _GETBLOCKTEMPLATERESPONSEMESSAGE._serialized_start=2324
-  _GETBLOCKTEMPLATERESPONSEMESSAGE._serialized_end=2448
-  _NOTIFYBLOCKADDEDREQUESTMESSAGE._serialized_start=2450
-  _NOTIFYBLOCKADDEDREQUESTMESSAGE._serialized_end=2482
-  _NOTIFYBLOCKADDEDRESPONSEMESSAGE._serialized_start=2484
-  _NOTIFYBLOCKADDEDRESPONSEMESSAGE._serialized_end=2554
-  _BLOCKADDEDNOTIFICATIONMESSAGE._serialized_start=2556
-  _BLOCKADDEDNOTIFICATIONMESSAGE._serialized_end=2623
-  _GETPEERADDRESSESREQUESTMESSAGE._serialized_start=2625
-  _GETPEERADDRESSESREQUESTMESSAGE._serialized_end=2657
-  _GETPEERADDRESSESRESPONSEMESSAGE._serialized_start=2660
-  _GETPEERADDRESSESRESPONSEMESSAGE._serialized_end=2870
-  _GETPEERADDRESSESKNOWNADDRESSMESSAGE._serialized_start=2872
-  _GETPEERADDRESSESKNOWNADDRESSMESSAGE._serialized_end=2923
-  _GETSELECTEDTIPHASHREQUESTMESSAGE._serialized_start=2925
-  _GETSELECTEDTIPHASHREQUESTMESSAGE._serialized_end=2959
-  _GETSELECTEDTIPHASHRESPONSEMESSAGE._serialized_start=2961
-  _GETSELECTEDTIPHASHRESPONSEMESSAGE._serialized_end=3058
-  _GETMEMPOOLENTRYREQUESTMESSAGE._serialized_start=3060
-  _GETMEMPOOLENTRYREQUESTMESSAGE._serialized_end=3105
-  _GETMEMPOOLENTRYRESPONSEMESSAGE._serialized_start=3107
-  _GETMEMPOOLENTRYRESPONSEMESSAGE._serialized_end=3216
-  _GETMEMPOOLENTRIESREQUESTMESSAGE._serialized_start=3218
-  _GETMEMPOOLENTRIESREQUESTMESSAGE._serialized_end=3251
-  _GETMEMPOOLENTRIESRESPONSEMESSAGE._serialized_start=3253
-  _GETMEMPOOLENTRIESRESPONSEMESSAGE._serialized_end=3366
-  _MEMPOOLENTRY._serialized_start=3368
-  _MEMPOOLENTRY._serialized_end=3443
-  _GETCONNECTEDPEERINFOREQUESTMESSAGE._serialized_start=3445
-  _GETCONNECTEDPEERINFOREQUESTMESSAGE._serialized_end=3481
-  _GETCONNECTEDPEERINFORESPONSEMESSAGE._serialized_start=3484
-  _GETCONNECTEDPEERINFORESPONSEMESSAGE._serialized_end=3613
-  _GETCONNECTEDPEERINFOMESSAGE._serialized_start=3616
-  _GETCONNECTEDPEERINFOMESSAGE._serialized_end=3836
-  _ADDPEERREQUESTMESSAGE._serialized_start=3838
-  _ADDPEERREQUESTMESSAGE._serialized_end=3899
-  _ADDPEERRESPONSEMESSAGE._serialized_start=3901
-  _ADDPEERRESPONSEMESSAGE._serialized_end=3962
-  _SUBMITTRANSACTIONREQUESTMESSAGE._serialized_start=3964
-  _SUBMITTRANSACTIONREQUESTMESSAGE._serialized_end=4066
-  _SUBMITTRANSACTIONRESPONSEMESSAGE._serialized_start=4068
-  _SUBMITTRANSACTIONRESPONSEMESSAGE._serialized_end=4162
-  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDREQUESTMESSAGE._serialized_start=4164
-  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDREQUESTMESSAGE._serialized_end=4219
-  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDRESPONSEMESSAGE._serialized_start=4221
-  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDRESPONSEMESSAGE._serialized_end=4314
-  _VIRTUALSELECTEDPARENTCHAINCHANGEDNOTIFICATIONMESSAGE._serialized_start=4316
-  _VIRTUALSELECTEDPARENTCHAINCHANGEDNOTIFICATIONMESSAGE._serialized_end=4434
-  _GETBLOCKREQUESTMESSAGE._serialized_start=4436
-  _GETBLOCKREQUESTMESSAGE._serialized_end=4503
-  _GETBLOCKRESPONSEMESSAGE._serialized_start=4505
-  _GETBLOCKRESPONSEMESSAGE._serialized_end=4603
-  _GETSUBNETWORKREQUESTMESSAGE._serialized_start=4605
-  _GETSUBNETWORKREQUESTMESSAGE._serialized_end=4656
-  _GETSUBNETWORKRESPONSEMESSAGE._serialized_start=4658
-  _GETSUBNETWORKRESPONSEMESSAGE._serialized_end=4743
-  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKREQUESTMESSAGE._serialized_start=4745
-  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKREQUESTMESSAGE._serialized_end=4818
-  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE._serialized_start=4821
-  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE._serialized_end=4977
-  _GETBLOCKSREQUESTMESSAGE._serialized_start=4979
-  _GETBLOCKSREQUESTMESSAGE._serialized_end=5073
-  _GETBLOCKSRESPONSEMESSAGE._serialized_start=5075
-  _GETBLOCKSRESPONSEMESSAGE._serialized_end=5196
-  _GETBLOCKCOUNTREQUESTMESSAGE._serialized_start=5198
-  _GETBLOCKCOUNTREQUESTMESSAGE._serialized_end=5227
-  _GETBLOCKCOUNTRESPONSEMESSAGE._serialized_start=5229
-  _GETBLOCKCOUNTRESPONSEMESSAGE._serialized_end=5337
-  _GETBLOCKDAGINFOREQUESTMESSAGE._serialized_start=5339
-  _GETBLOCKDAGINFOREQUESTMESSAGE._serialized_end=5370
-  _GETBLOCKDAGINFORESPONSEMESSAGE._serialized_start=5373
-  _GETBLOCKDAGINFORESPONSEMESSAGE._serialized_end=5647
-  _RESOLVEFINALITYCONFLICTREQUESTMESSAGE._serialized_start=5649
-  _RESOLVEFINALITYCONFLICTREQUESTMESSAGE._serialized_end=5715
-  _RESOLVEFINALITYCONFLICTRESPONSEMESSAGE._serialized_start=5717
-  _RESOLVEFINALITYCONFLICTRESPONSEMESSAGE._serialized_end=5794
-  _NOTIFYFINALITYCONFLICTSREQUESTMESSAGE._serialized_start=5796
-  _NOTIFYFINALITYCONFLICTSREQUESTMESSAGE._serialized_end=5835
-  _NOTIFYFINALITYCONFLICTSRESPONSEMESSAGE._serialized_start=5837
-  _NOTIFYFINALITYCONFLICTSRESPONSEMESSAGE._serialized_end=5914
-  _FINALITYCONFLICTNOTIFICATIONMESSAGE._serialized_start=5916
-  _FINALITYCONFLICTNOTIFICATIONMESSAGE._serialized_end=5981
-  _FINALITYCONFLICTRESOLVEDNOTIFICATIONMESSAGE._serialized_start=5983
-  _FINALITYCONFLICTRESOLVEDNOTIFICATIONMESSAGE._serialized_end=6055
-  _SHUTDOWNREQUESTMESSAGE._serialized_start=6057
-  _SHUTDOWNREQUESTMESSAGE._serialized_end=6081
-  _SHUTDOWNRESPONSEMESSAGE._serialized_start=6083
-  _SHUTDOWNRESPONSEMESSAGE._serialized_end=6145
-  _GETHEADERSREQUESTMESSAGE._serialized_start=6147
-  _GETHEADERSREQUESTMESSAGE._serialized_end=6228
-  _GETHEADERSRESPONSEMESSAGE._serialized_start=6230
-  _GETHEADERSRESPONSEMESSAGE._serialized_end=6311
-  _NOTIFYUTXOSCHANGEDREQUESTMESSAGE._serialized_start=6313
-  _NOTIFYUTXOSCHANGEDREQUESTMESSAGE._serialized_end=6366
-  _NOTIFYUTXOSCHANGEDRESPONSEMESSAGE._serialized_start=6368
-  _NOTIFYUTXOSCHANGEDRESPONSEMESSAGE._serialized_end=6440
-  _UTXOSCHANGEDNOTIFICATIONMESSAGE._serialized_start=6443
-  _UTXOSCHANGEDNOTIFICATIONMESSAGE._serialized_end=6576
-  _UTXOSBYADDRESSESENTRY._serialized_start=6578
-  _UTXOSBYADDRESSESENTRY._serialized_end=6704
-  _STOPNOTIFYINGUTXOSCHANGEDREQUESTMESSAGE._serialized_start=6706
-  _STOPNOTIFYINGUTXOSCHANGEDREQUESTMESSAGE._serialized_end=6766
-  _STOPNOTIFYINGUTXOSCHANGEDRESPONSEMESSAGE._serialized_start=6768
-  _STOPNOTIFYINGUTXOSCHANGEDRESPONSEMESSAGE._serialized_end=6847
-  _GETUTXOSBYADDRESSESREQUESTMESSAGE._serialized_start=6849
-  _GETUTXOSBYADDRESSESREQUESTMESSAGE._serialized_end=6903
-  _GETUTXOSBYADDRESSESRESPONSEMESSAGE._serialized_start=6905
-  _GETUTXOSBYADDRESSESRESPONSEMESSAGE._serialized_end=7029
-  _GETBALANCEBYADDRESSREQUESTMESSAGE._serialized_start=7031
-  _GETBALANCEBYADDRESSREQUESTMESSAGE._serialized_end=7083
-  _GETBALANCEBYADDRESSRESPONSEMESSAGE._serialized_start=7085
-  _GETBALANCEBYADDRESSRESPONSEMESSAGE._serialized_end=7175
-  _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE._serialized_start=7177
-  _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE._serialized_end=7226
-  _GETVIRTUALSELECTEDPARENTBLUESCORERESPONSEMESSAGE._serialized_start=7228
-  _GETVIRTUALSELECTEDPARENTBLUESCORERESPONSEMESSAGE._serialized_end=7334
-  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDREQUESTMESSAGE._serialized_start=7336
-  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDREQUESTMESSAGE._serialized_end=7395
-  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDRESPONSEMESSAGE._serialized_start=7397
-  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDRESPONSEMESSAGE._serialized_end=7494
-  _VIRTUALSELECTEDPARENTBLUESCORECHANGEDNOTIFICATIONMESSAGE._serialized_start=7496
-  _VIRTUALSELECTEDPARENTBLUESCORECHANGEDNOTIFICATIONMESSAGE._serialized_end=7594
-  _NOTIFYVIRTUALDAASCORECHANGEDREQUESTMESSAGE._serialized_start=7596
-  _NOTIFYVIRTUALDAASCORECHANGEDREQUESTMESSAGE._serialized_end=7640
-  _NOTIFYVIRTUALDAASCORECHANGEDRESPONSEMESSAGE._serialized_start=7642
-  _NOTIFYVIRTUALDAASCORECHANGEDRESPONSEMESSAGE._serialized_end=7724
-  _VIRTUALDAASCORECHANGEDNOTIFICATIONMESSAGE._serialized_start=7726
-  _VIRTUALDAASCORECHANGEDNOTIFICATIONMESSAGE._serialized_end=7794
-  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_start=7796
-  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_end=7845
-  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_start=7847
-  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_end=7934
-  _PRUNINGPOINTUTXOSETOVERRIDENOTIFICATIONMESSAGE._serialized_start=7936
-  _PRUNINGPOINTUTXOSETOVERRIDENOTIFICATIONMESSAGE._serialized_end=7984
-  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_start=7986
-  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_end=8042
-  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_start=8044
-  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_end=8138
-  _BANREQUESTMESSAGE._serialized_start=8140
-  _BANREQUESTMESSAGE._serialized_end=8171
-  _BANRESPONSEMESSAGE._serialized_start=8173
-  _BANRESPONSEMESSAGE._serialized_end=8230
-  _UNBANREQUESTMESSAGE._serialized_start=8232
-  _UNBANREQUESTMESSAGE._serialized_end=8265
-  _UNBANRESPONSEMESSAGE._serialized_start=8267
-  _UNBANRESPONSEMESSAGE._serialized_end=8326
-  _GETINFOREQUESTMESSAGE._serialized_start=8328
-  _GETINFOREQUESTMESSAGE._serialized_end=8351
-  _GETINFORESPONSEMESSAGE._serialized_start=8353
-  _GETINFORESPONSEMESSAGE._serialized_end=8473
-  _ESTIMATENETWORKHASHESPERSECONDREQUESTMESSAGE._serialized_start=8475
-  _ESTIMATENETWORKHASHESPERSECONDREQUESTMESSAGE._serialized_end=8560
-  _ESTIMATENETWORKHASHESPERSECONDRESPONSEMESSAGE._serialized_start=8562
-  _ESTIMATENETWORKHASHESPERSECONDRESPONSEMESSAGE._serialized_end=8678
+  _RPCBLOCKVERBOSEDATA._serialized_end=798
+  _RPCTRANSACTION._serialized_start=801
+  _RPCTRANSACTION._serialized_end=1061
+  _RPCTRANSACTIONINPUT._serialized_start=1064
+  _RPCTRANSACTIONINPUT._serialized_end=1262
+  _RPCSCRIPTPUBLICKEY._serialized_start=1264
+  _RPCSCRIPTPUBLICKEY._serialized_end=1326
+  _RPCTRANSACTIONOUTPUT._serialized_start=1329
+  _RPCTRANSACTIONOUTPUT._serialized_end=1488
+  _RPCOUTPOINT._serialized_start=1490
+  _RPCOUTPOINT._serialized_end=1541
+  _RPCUTXOENTRY._serialized_start=1544
+  _RPCUTXOENTRY._serialized_end=1673
+  _RPCTRANSACTIONVERBOSEDATA._serialized_start=1675
+  _RPCTRANSACTIONVERBOSEDATA._serialized_end=1791
+  _RPCTRANSACTIONINPUTVERBOSEDATA._serialized_start=1793
+  _RPCTRANSACTIONINPUTVERBOSEDATA._serialized_end=1825
+  _RPCTRANSACTIONOUTPUTVERBOSEDATA._serialized_start=1827
+  _RPCTRANSACTIONOUTPUTVERBOSEDATA._serialized_end=1921
+  _GETCURRENTNETWORKREQUESTMESSAGE._serialized_start=1923
+  _GETCURRENTNETWORKREQUESTMESSAGE._serialized_end=1956
+  _GETCURRENTNETWORKRESPONSEMESSAGE._serialized_start=1958
+  _GETCURRENTNETWORKRESPONSEMESSAGE._serialized_end=2053
+  _SUBMITBLOCKREQUESTMESSAGE._serialized_start=2055
+  _SUBMITBLOCKREQUESTMESSAGE._serialized_end=2145
+  _SUBMITBLOCKRESPONSEMESSAGE._serialized_start=2148
+  _SUBMITBLOCKRESPONSEMESSAGE._serialized_end=2347
+  _SUBMITBLOCKRESPONSEMESSAGE_REJECTREASON._serialized_start=2289
+  _SUBMITBLOCKRESPONSEMESSAGE_REJECTREASON._serialized_end=2347
+  _GETBLOCKTEMPLATEREQUESTMESSAGE._serialized_start=2349
+  _GETBLOCKTEMPLATEREQUESTMESSAGE._serialized_end=2420
+  _GETBLOCKTEMPLATERESPONSEMESSAGE._serialized_start=2422
+  _GETBLOCKTEMPLATERESPONSEMESSAGE._serialized_end=2546
+  _NOTIFYBLOCKADDEDREQUESTMESSAGE._serialized_start=2548
+  _NOTIFYBLOCKADDEDREQUESTMESSAGE._serialized_end=2580
+  _NOTIFYBLOCKADDEDRESPONSEMESSAGE._serialized_start=2582
+  _NOTIFYBLOCKADDEDRESPONSEMESSAGE._serialized_end=2652
+  _BLOCKADDEDNOTIFICATIONMESSAGE._serialized_start=2654
+  _BLOCKADDEDNOTIFICATIONMESSAGE._serialized_end=2721
+  _GETPEERADDRESSESREQUESTMESSAGE._serialized_start=2723
+  _GETPEERADDRESSESREQUESTMESSAGE._serialized_end=2755
+  _GETPEERADDRESSESRESPONSEMESSAGE._serialized_start=2758
+  _GETPEERADDRESSESRESPONSEMESSAGE._serialized_end=2968
+  _GETPEERADDRESSESKNOWNADDRESSMESSAGE._serialized_start=2970
+  _GETPEERADDRESSESKNOWNADDRESSMESSAGE._serialized_end=3021
+  _GETSELECTEDTIPHASHREQUESTMESSAGE._serialized_start=3023
+  _GETSELECTEDTIPHASHREQUESTMESSAGE._serialized_end=3057
+  _GETSELECTEDTIPHASHRESPONSEMESSAGE._serialized_start=3059
+  _GETSELECTEDTIPHASHRESPONSEMESSAGE._serialized_end=3156
+  _GETMEMPOOLENTRYREQUESTMESSAGE._serialized_start=3158
+  _GETMEMPOOLENTRYREQUESTMESSAGE._serialized_end=3261
+  _GETMEMPOOLENTRYRESPONSEMESSAGE._serialized_start=3263
+  _GETMEMPOOLENTRYRESPONSEMESSAGE._serialized_end=3372
+  _GETMEMPOOLENTRIESREQUESTMESSAGE._serialized_start=3374
+  _GETMEMPOOLENTRIESREQUESTMESSAGE._serialized_end=3465
+  _GETMEMPOOLENTRIESRESPONSEMESSAGE._serialized_start=3467
+  _GETMEMPOOLENTRIESRESPONSEMESSAGE._serialized_end=3580
+  _MEMPOOLENTRY._serialized_start=3582
+  _MEMPOOLENTRY._serialized_end=3675
+  _GETCONNECTEDPEERINFOREQUESTMESSAGE._serialized_start=3677
+  _GETCONNECTEDPEERINFOREQUESTMESSAGE._serialized_end=3713
+  _GETCONNECTEDPEERINFORESPONSEMESSAGE._serialized_start=3716
+  _GETCONNECTEDPEERINFORESPONSEMESSAGE._serialized_end=3845
+  _GETCONNECTEDPEERINFOMESSAGE._serialized_start=3848
+  _GETCONNECTEDPEERINFOMESSAGE._serialized_end=4068
+  _ADDPEERREQUESTMESSAGE._serialized_start=4070
+  _ADDPEERREQUESTMESSAGE._serialized_end=4131
+  _ADDPEERRESPONSEMESSAGE._serialized_start=4133
+  _ADDPEERRESPONSEMESSAGE._serialized_end=4194
+  _SUBMITTRANSACTIONREQUESTMESSAGE._serialized_start=4196
+  _SUBMITTRANSACTIONREQUESTMESSAGE._serialized_end=4298
+  _SUBMITTRANSACTIONRESPONSEMESSAGE._serialized_start=4300
+  _SUBMITTRANSACTIONRESPONSEMESSAGE._serialized_end=4394
+  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDREQUESTMESSAGE._serialized_start=4396
+  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDREQUESTMESSAGE._serialized_end=4490
+  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDRESPONSEMESSAGE._serialized_start=4492
+  _NOTIFYVIRTUALSELECTEDPARENTCHAINCHANGEDRESPONSEMESSAGE._serialized_end=4585
+  _VIRTUALSELECTEDPARENTCHAINCHANGEDNOTIFICATIONMESSAGE._serialized_start=4588
+  _VIRTUALSELECTEDPARENTCHAINCHANGEDNOTIFICATIONMESSAGE._serialized_end=4773
+  _GETBLOCKREQUESTMESSAGE._serialized_start=4775
+  _GETBLOCKREQUESTMESSAGE._serialized_end=4842
+  _GETBLOCKRESPONSEMESSAGE._serialized_start=4844
+  _GETBLOCKRESPONSEMESSAGE._serialized_end=4942
+  _GETSUBNETWORKREQUESTMESSAGE._serialized_start=4944
+  _GETSUBNETWORKREQUESTMESSAGE._serialized_end=4995
+  _GETSUBNETWORKRESPONSEMESSAGE._serialized_start=4997
+  _GETSUBNETWORKRESPONSEMESSAGE._serialized_end=5082
+  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKREQUESTMESSAGE._serialized_start=5084
+  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKREQUESTMESSAGE._serialized_end=5196
+  _ACCEPTEDTRANSACTIONIDS._serialized_start=5198
+  _ACCEPTEDTRANSACTIONIDS._serialized_end=5282
+  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE._serialized_start=5285
+  _GETVIRTUALSELECTEDPARENTCHAINFROMBLOCKRESPONSEMESSAGE._serialized_end=5508
+  _GETBLOCKSREQUESTMESSAGE._serialized_start=5510
+  _GETBLOCKSREQUESTMESSAGE._serialized_end=5604
+  _GETBLOCKSRESPONSEMESSAGE._serialized_start=5606
+  _GETBLOCKSRESPONSEMESSAGE._serialized_end=5727
+  _GETBLOCKCOUNTREQUESTMESSAGE._serialized_start=5729
+  _GETBLOCKCOUNTREQUESTMESSAGE._serialized_end=5758
+  _GETBLOCKCOUNTRESPONSEMESSAGE._serialized_start=5760
+  _GETBLOCKCOUNTRESPONSEMESSAGE._serialized_end=5868
+  _GETBLOCKDAGINFOREQUESTMESSAGE._serialized_start=5870
+  _GETBLOCKDAGINFOREQUESTMESSAGE._serialized_end=5901
+  _GETBLOCKDAGINFORESPONSEMESSAGE._serialized_start=5904
+  _GETBLOCKDAGINFORESPONSEMESSAGE._serialized_end=6178
+  _RESOLVEFINALITYCONFLICTREQUESTMESSAGE._serialized_start=6180
+  _RESOLVEFINALITYCONFLICTREQUESTMESSAGE._serialized_end=6246
+  _RESOLVEFINALITYCONFLICTRESPONSEMESSAGE._serialized_start=6248
+  _RESOLVEFINALITYCONFLICTRESPONSEMESSAGE._serialized_end=6325
+  _NOTIFYFINALITYCONFLICTSREQUESTMESSAGE._serialized_start=6327
+  _NOTIFYFINALITYCONFLICTSREQUESTMESSAGE._serialized_end=6366
+  _NOTIFYFINALITYCONFLICTSRESPONSEMESSAGE._serialized_start=6368
+  _NOTIFYFINALITYCONFLICTSRESPONSEMESSAGE._serialized_end=6445
+  _FINALITYCONFLICTNOTIFICATIONMESSAGE._serialized_start=6447
+  _FINALITYCONFLICTNOTIFICATIONMESSAGE._serialized_end=6512
+  _FINALITYCONFLICTRESOLVEDNOTIFICATIONMESSAGE._serialized_start=6514
+  _FINALITYCONFLICTRESOLVEDNOTIFICATIONMESSAGE._serialized_end=6586
+  _SHUTDOWNREQUESTMESSAGE._serialized_start=6588
+  _SHUTDOWNREQUESTMESSAGE._serialized_end=6612
+  _SHUTDOWNRESPONSEMESSAGE._serialized_start=6614
+  _SHUTDOWNRESPONSEMESSAGE._serialized_end=6676
+  _GETHEADERSREQUESTMESSAGE._serialized_start=6678
+  _GETHEADERSREQUESTMESSAGE._serialized_end=6759
+  _GETHEADERSRESPONSEMESSAGE._serialized_start=6761
+  _GETHEADERSRESPONSEMESSAGE._serialized_end=6842
+  _NOTIFYUTXOSCHANGEDREQUESTMESSAGE._serialized_start=6844
+  _NOTIFYUTXOSCHANGEDREQUESTMESSAGE._serialized_end=6897
+  _NOTIFYUTXOSCHANGEDRESPONSEMESSAGE._serialized_start=6899
+  _NOTIFYUTXOSCHANGEDRESPONSEMESSAGE._serialized_end=6971
+  _UTXOSCHANGEDNOTIFICATIONMESSAGE._serialized_start=6974
+  _UTXOSCHANGEDNOTIFICATIONMESSAGE._serialized_end=7107
+  _UTXOSBYADDRESSESENTRY._serialized_start=7109
+  _UTXOSBYADDRESSESENTRY._serialized_end=7235
+  _STOPNOTIFYINGUTXOSCHANGEDREQUESTMESSAGE._serialized_start=7237
+  _STOPNOTIFYINGUTXOSCHANGEDREQUESTMESSAGE._serialized_end=7297
+  _STOPNOTIFYINGUTXOSCHANGEDRESPONSEMESSAGE._serialized_start=7299
+  _STOPNOTIFYINGUTXOSCHANGEDRESPONSEMESSAGE._serialized_end=7378
+  _GETUTXOSBYADDRESSESREQUESTMESSAGE._serialized_start=7380
+  _GETUTXOSBYADDRESSESREQUESTMESSAGE._serialized_end=7434
+  _GETUTXOSBYADDRESSESRESPONSEMESSAGE._serialized_start=7436
+  _GETUTXOSBYADDRESSESRESPONSEMESSAGE._serialized_end=7560
+  _GETBALANCEBYADDRESSREQUESTMESSAGE._serialized_start=7562
+  _GETBALANCEBYADDRESSREQUESTMESSAGE._serialized_end=7614
+  _GETBALANCEBYADDRESSRESPONSEMESSAGE._serialized_start=7616
+  _GETBALANCEBYADDRESSRESPONSEMESSAGE._serialized_end=7706
+  _GETBALANCESBYADDRESSESREQUESTMESSAGE._serialized_start=7708
+  _GETBALANCESBYADDRESSESREQUESTMESSAGE._serialized_end=7765
+  _BALANCESBYADDRESSENTRY._serialized_start=7767
+  _BALANCESBYADDRESSENTRY._serialized_end=7862
+  _GETBALANCESBYADDRESSESRESPONSEMESSAGE._serialized_start=7865
+  _GETBALANCESBYADDRESSESRESPONSEMESSAGE._serialized_end=7993
+  _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE._serialized_start=7995
+  _GETVIRTUALSELECTEDPARENTBLUESCOREREQUESTMESSAGE._serialized_end=8044
+  _GETVIRTUALSELECTEDPARENTBLUESCORERESPONSEMESSAGE._serialized_start=8046
+  _GETVIRTUALSELECTEDPARENTBLUESCORERESPONSEMESSAGE._serialized_end=8152
+  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDREQUESTMESSAGE._serialized_start=8154
+  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDREQUESTMESSAGE._serialized_end=8213
+  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDRESPONSEMESSAGE._serialized_start=8215
+  _NOTIFYVIRTUALSELECTEDPARENTBLUESCORECHANGEDRESPONSEMESSAGE._serialized_end=8312
+  _VIRTUALSELECTEDPARENTBLUESCORECHANGEDNOTIFICATIONMESSAGE._serialized_start=8314
+  _VIRTUALSELECTEDPARENTBLUESCORECHANGEDNOTIFICATIONMESSAGE._serialized_end=8412
+  _NOTIFYVIRTUALDAASCORECHANGEDREQUESTMESSAGE._serialized_start=8414
+  _NOTIFYVIRTUALDAASCORECHANGEDREQUESTMESSAGE._serialized_end=8458
+  _NOTIFYVIRTUALDAASCORECHANGEDRESPONSEMESSAGE._serialized_start=8460
+  _NOTIFYVIRTUALDAASCORECHANGEDRESPONSEMESSAGE._serialized_end=8542
+  _VIRTUALDAASCORECHANGEDNOTIFICATIONMESSAGE._serialized_start=8544
+  _VIRTUALDAASCORECHANGEDNOTIFICATIONMESSAGE._serialized_end=8612
+  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_start=8614
+  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_end=8663
+  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_start=8665
+  _NOTIFYPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_end=8752
+  _PRUNINGPOINTUTXOSETOVERRIDENOTIFICATIONMESSAGE._serialized_start=8754
+  _PRUNINGPOINTUTXOSETOVERRIDENOTIFICATIONMESSAGE._serialized_end=8802
+  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_start=8804
+  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDEREQUESTMESSAGE._serialized_end=8860
+  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_start=8862
+  _STOPNOTIFYINGPRUNINGPOINTUTXOSETOVERRIDERESPONSEMESSAGE._serialized_end=8956
+  _BANREQUESTMESSAGE._serialized_start=8958
+  _BANREQUESTMESSAGE._serialized_end=8989
+  _BANRESPONSEMESSAGE._serialized_start=8991
+  _BANRESPONSEMESSAGE._serialized_end=9048
+  _UNBANREQUESTMESSAGE._serialized_start=9050
+  _UNBANREQUESTMESSAGE._serialized_end=9083
+  _UNBANRESPONSEMESSAGE._serialized_start=9085
+  _UNBANRESPONSEMESSAGE._serialized_end=9144
+  _GETINFOREQUESTMESSAGE._serialized_start=9146
+  _GETINFOREQUESTMESSAGE._serialized_end=9169
+  _GETINFORESPONSEMESSAGE._serialized_start=9172
+  _GETINFORESPONSEMESSAGE._serialized_end=9333
+  _ESTIMATENETWORKHASHESPERSECONDREQUESTMESSAGE._serialized_start=9335
+  _ESTIMATENETWORKHASHESPERSECONDREQUESTMESSAGE._serialized_end=9420
+  _ESTIMATENETWORKHASHESPERSECONDRESPONSEMESSAGE._serialized_start=9422
+  _ESTIMATENETWORKHASHESPERSECONDRESPONSEMESSAGE._serialized_end=9538
+  _NOTIFYNEWBLOCKTEMPLATEREQUESTMESSAGE._serialized_start=9540
+  _NOTIFYNEWBLOCKTEMPLATEREQUESTMESSAGE._serialized_end=9578
+  _NOTIFYNEWBLOCKTEMPLATERESPONSEMESSAGE._serialized_start=9580
+  _NOTIFYNEWBLOCKTEMPLATERESPONSEMESSAGE._serialized_end=9656
+  _NEWBLOCKTEMPLATENOTIFICATIONMESSAGE._serialized_start=9658
+  _NEWBLOCKTEMPLATENOTIFICATIONMESSAGE._serialized_end=9695
+  _MEMPOOLENTRYBYADDRESS._serialized_start=9697
+  _MEMPOOLENTRYBYADDRESS._serialized_end=9823
+  _GETMEMPOOLENTRIESBYADDRESSESREQUESTMESSAGE._serialized_start=9825
+  _GETMEMPOOLENTRIESBYADDRESSESREQUESTMESSAGE._serialized_end=9946
+  _GETMEMPOOLENTRIESBYADDRESSESRESPONSEMESSAGE._serialized_start=9949
+  _GETMEMPOOLENTRIESBYADDRESSESRESPONSEMESSAGE._serialized_end=10082
+  _GETCOINSUPPLYREQUESTMESSAGE._serialized_start=10084
+  _GETCOINSUPPLYREQUESTMESSAGE._serialized_end=10113
+  _GETCOINSUPPLYRESPONSEMESSAGE._serialized_start=10115
+  _GETCOINSUPPLYRESPONSEMESSAGE._serialized_end=10226
 # @@protoc_insertion_point(module_scope)

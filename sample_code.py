@@ -20,7 +20,7 @@ payload = {'addresses' : ['kaspa:pzhh76qc82wzduvsrd9xh4zde9qhp0xc8rl7qu2mvl2e42u
 #payload = {} #in our case we don't need to send additional information 
 
 #send the request to the server and retrive the response
-resp  = client.request(command='getUtxosByAddressesRequest', payload=payload, timeout=20)
+resp  = client.request(command=command, payload=payload, timeout=20)
 
 print(resp) # print response
 
