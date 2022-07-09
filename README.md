@@ -1,6 +1,7 @@
 # kaspy
 
 Python implementation of a kaspa-grpc client.
+ 
 
 ## work in progress...
 
@@ -30,7 +31,10 @@ client.connect(host='<ip>', port='<port>')
 #OR
 
 #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-client.auto_connect() #note: it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
+client.auto_connect() 
+#note: 
+# 1) it may take a while to find a responsive nodes, timeout should be issued to not get stuck searching
+# 2) min node requirements for auto-connect is v0.12.2
 ```
 
 ### Sending a `request()`:
@@ -114,7 +118,6 @@ https://github.com/kaspagang/kaspy/blob/master/kaspy/protos/messages.proto
 
 ## Requirements
 - grpc
-- google
 
 ## Contribute
 feel free to open a pull request. 

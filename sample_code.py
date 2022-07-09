@@ -12,12 +12,10 @@ client = RPCClient()
     #OR
     
 #Connect to a a publicaly broadcasted node from the dns_seed_servers.
-client.auto_connect(utxoindex=True, max_receive_size=1024**2*50, min_kaspad_version='0.11.13')
+client.auto_connect(utxoindex=True, min_kaspad_version='0.12.2')
 #define the command you want to send
-command = 'getUtxosByAddressesRequest'
-payload = {'addresses' : ['kaspa:pzhh76qc82wzduvsrd9xh4zde9qhp0xc8rl7qu2mvl2e42uvdqt75zrcgpm00']}#, timeout=10)
-#build the payload for the command
-#payload = {} #in our case we don't need to send additional information 
+command = 'getCoinSupplyRequest'
+payload = {} #in our case we don't need to send additional information 
 
 #send the request to the server and retrive the response
 resp  = client.request(command=command, payload=payload, timeout=20)

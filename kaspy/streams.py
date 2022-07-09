@@ -18,7 +18,6 @@ grpc.max_receive_message_length = -1
 class BaseStream:
     
     def __init__(self, node: Node, stub: Union[RPCStub, P2PStub], idle_timeout: float = None, max_receive_size=(1024**2)*4):
-        print(max_receive_size)
         self._conn = grpc.insecure_channel(
             f'{node}',
             options = [

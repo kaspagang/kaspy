@@ -1,4 +1,7 @@
 import base64
+from distutils.log import Log
+
+from sympy import false
 import grpc
 import time
 from collections import defaultdict
@@ -18,8 +21,8 @@ from kaspy.utils.version_comparer import version as ver
 from kaspy.excepts.exceptions import CLientClosed, ClientDisconnected, CommandIsNotSubcribable, InvalidCommand, RPCResponseException, RPCServiceUnavailable, SubscriptionCannotBeUnsubscribed
 
 
-#basicConfig(level=INFO)
-#basicConfig(level=DEBUG)
+basicConfig(level=INFO)
+basicConfig(level=DEBUG)
 LOG = getLogger('[KASPA_CLI]')
 
 
@@ -258,18 +261,10 @@ class RPCClient(BaseClient):
         return self.node.network
     
     def kaspad_utxoindex(self, timeout):
-        if str(self.node.utxoindex) == UNKNOWEN:
-            resp = self.request(
-                'getBalanceByAddressRequest', {
-                    'address' : 'kaspa:qzyjckdvgyxgwqj8zztw7qkqylsp864fyquzg8ykmmwkz58snu85zlk0mfy89'
-                    }
-                , timeout) #would like to leave out a hard-coded address, but see no other way, for now.
-            try:
-                resp['getBalanceByAddressResponse']['balance']
-                self.node.utxoindex = True
-            except:
-                self.node.utxoindex = False
-        return self.node.utxoindex
+        try:
+                return self.request('getInfoRequest', {})['getInfoResponse']['isUtxoIndexed']
+        except:
+                return false
 
     def auto_connect(self, min_kaspad_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
                     conn_timeout: Union[float, None] = 3, idel_timeout: float = None, max_latency: Union[float, None] =  None, 
@@ -342,7 +337,6 @@ class P2PClient(BaseClient):
         # note above is outdated
         version_msg = self.recv(timeouts)['version'] # get version msg from kaspad
         self.send('verack')# Verify we got their version
-        print('1 ', version_msg)
         self.node.protocol = ver(version_msg['protocolVersion'], 0, 0)
         self.node.version = ver.parse_from_string(version_msg['userAgent'].rsplit('/')[-2])
         self.node.network = version_msg['network'].split('-')[-1]
@@ -378,7 +372,7 @@ class P2PClient(BaseClient):
             self.request_stream.filter = False
         self._handshake(handshake_timeouts)
     
-    def auto_connect(self, disable_relay_tx: bool = True, min_protocol_version: Union[ver, str, None] = None, subnetwork: Union[str, None] = MAINNET,
+    def auto_connect(self, disable_relay_tx: bool = True, subnetwork: Union[str, None] = MAINNET,
             min_kaspad_version: Union[ver, str, None] = None, timeout: Union[float, None] = 5, 
             max_latency: Union[float, None] =  None, new_conn_on_err: bool = False, max_receive_size = (1024**2)*4):
         '''auto connect to a P2P node'''
@@ -388,27 +382,26 @@ class P2PClient(BaseClient):
             try:
                 latency = self.kaspad_check_port(min(filter(bool, [timeout, max_latency]), default=None))
                 if not latency: 
+                    LOG.info("no latency")
                     continue
                 if latency:
                     if max_latency:
                         if latency > max_latency:
+                            LOG.info("low latency")
                             continue
                 self.connect(node.ip, port, disable_relay_tx, timeout, max_receive_size)
             except (RPCServiceUnavailable, TimeoutError) as e:
                 LOG.debug(e)
                 continue
-            if min_protocol_version:
-                if isinstance(min_protocol_version, str): 
-                    min_protocol_version = ver.parse_from_string(min_protocol_version)
-                if self.node.protocol < min_protocol_version:
-                    continue
             if subnetwork:
                 if subnetwork != self.node.network:
+                    Log.info("wrong network")
                     continue
             if min_kaspad_version:
                 if isinstance(min_kaspad_version, str):
                     min_kaspad_version = ver.parse_from_string(self.node.version)
                 if self.node.version < min_kaspad_version:
+                    LOG.info("old node")
                     continue
             break
 

@@ -5,7 +5,7 @@ import time
 from kaspy.log_handler.log_messages import network as net_lm
 from kaspy.defines import MAINNET, P2P_DEF_PORTS, RPC_DEF_PORTS
 
-#basicConfig(level=INFO)
+basicConfig(level=INFO)
 LOG = getLogger('[KASPA_NOD]')
 
 UNKNOWEN = 'unknown'
@@ -80,7 +80,9 @@ class node_acquirer:
         while True:
             scanned = set()
             for dns_server in cls.dns_seed_servers:
-                addresses = query_node.connected_peers(ip=dns_server, port=RPC_DEF_PORTS[MAINNET]) - scanned
+                addresses = query_node.connected_peers(ip=dns_server, port=RPC_DEF_PORTS[MAINNET])
+                if not addresses: continue
+                addresses = addresses - scanned
                 LOG.info(net_lm.SCANNING_RETRIVED_NODES_FROM(dns_server, addresses))
                 if not addresses: continue
                 for addr in addresses:
