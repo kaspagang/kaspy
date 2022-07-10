@@ -1,7 +1,6 @@
 import base64
 from distutils.log import Log
 
-from sympy import false
 import grpc
 import time
 from collections import defaultdict
